@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Portfolio | Toshihide Fujii</title>
+  <meta name="description" content="Master’s projects (2) + internship work. Research-to-industry portfolio." />
+  <meta name="theme-color" content="#111111" />
+  <link rel="stylesheet" href="styles.css" />
+  <script defer src="main.js"></script>
+</head>
+
+<body>
+  <a class="skip" href="#main">本文へスキップ</a>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="#top">
+        <span class="brand-mark" aria-hidden="true">TF</span>
+        <span class="brand-name">Toshihide Fujii</span>
+      </a>
+
+      <nav class="nav" aria-label="サイト内メニュー">
+        <a href="#about" data-i18n="nav.about">About</a>
+        <a href="#projects" data-i18n="nav.projects">Projects</a>
+        <a href="#case" data-i18n="nav.case">Case Study</a>
+        <a href="#education" data-i18n="nav.education">Education</a>
+        <a href="#contact" data-i18n="nav.contact">Contact</a>
+      </nav>
+
+      <div class="header-actions">
+        <button class="chip" id="langBtn" type="button" aria-label="言語切り替え">JP / EN</button>
+        <button class="chip" id="themeBtn" type="button" aria-label="テーマ切り替え">Light / Dark</button>
+        <button class="menuBtn" id="menuBtn" type="button" aria-label="メニューを開く" aria-controls="mobileNav" aria-expanded="false">Menu</button>
+      </div>
+    </div>
+
+    <div class="mobileNav" id="mobileNav" hidden>
+      <a href="#about" data-i18n="nav.about">About</a>
+      <a href="#projects" data-i18n="nav.projects">Projects</a>
+      <a href="#case" data-i18n="nav.case">Case Study</a>
+      <a href="#education" data-i18n="nav.education">Education</a>
+      <a href="#contact" data-i18n="nav.contact">Contact</a>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- TOP / HERO -->
+    <section class="hero" id="top">
+      <div class="container hero-inner">
+        <div class="hero-copy">
+          <p class="eyebrow" data-i18n="hero.eyebrow">Master’s Student / Research + Internship</p>
+          <h1 class="hero-title" data-i18n="hero.title">
+            portfolio
+          </h1>
+
+          <p class="hero-lead" data-i18n="hero.lead">
+            修士研究2件とインターンの成果のまとめ。
+          </p>
+
+          <div class="cta-row">
+            <a class="btn primary" href="#projects" data-i18n="hero.cta1">View projects</a>
+            <a class="btn" href="#contact" data-i18n="hero.cta2">Contact</a>
+            <a class="btn" href="#" target="_blank" rel="noopener noreferrer" data-i18n="hero.cta3">Download Resume (PDF)</a>
+          </div>
+
+          <dl class="facts">
+            <div><dt data-i18n="hero.f1k">Focus</dt><dd data-i18n="hero.f1v">Clear documentation & reproducible results</dd></div>
+            <div><dt data-i18n="hero.f2k">Strengths</dt><dd data-i18n="hero.f2v">Analysis • Writing • Collaboration</dd></div>
+            <div><dt data-i18n="hero.f3k">Location</dt><dd>Japan (JST)</dd></div>
+          </dl>
+        </div>
+
+        <aside class="hero-card" aria-label="プロフィール">
+          <p class="name">Toshihide Fujii</p>
+          <p class="role" data-i18n="hero.role">Target roles: ____ / ____ / ____</p>
+
+          <div class="split">
+            <div>
+              <p class="k" data-i18n="hero.k1">Tools</p>
+              <p class="v">Python / Git / LLM APIs</p>
+            </div>
+            <div>
+              <p class="k" data-i18n="hero.k2">Languages</p>
+              <p class="v">Japanese / English</p>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section class="section" id="about">
+      <div class="container">
+        <div class="section-head">
+          <h2 data-i18n="about.h">About</h2>
+          <p class="muted" data-i18n="about.sub">役割と強み</p>
+        </div>
+
+        <div class="grid2">
+          <article class="panel">
+            <h3 data-i18n="about.h3a">Summary</h3>
+            <p data-i18n="about.p1">
+              修士課程の研究。研究成果。
+            </p>
+            <ul class="checklist">
+              <li data-i18n="about.li1">課題定義 → 実験設計 → 評価 → ドキュメント化</li>
+              <li data-i18n="about.li2">分かりやすい文章・図解（読み手の負荷を下げる）</li>
+              <li data-i18n="about.li3">チームでの合意形成（仕様・評価軸・優先度）</li>
+            </ul>
+          </article>
+
+          <article class="panel">
+            <h3 data-i18n="about.h3b">Skills</h3>
+            <div class="pill-row">
+                          <span class="pill">Localization Quality</span>
+                          <span class="pill">Terminology</span>
+                          <span class="pill">MT/LLM Evaluation</span>
+                          <span class="pill">Translation</span>
+                          <span class="pill">Technical Writing</span>
+                          <span class="pill">Natural Language Processing</span>
+                
+          </div>
+
+            <div class="kpi">
+              <div class="kpi-item">
+                <span class="kpi-k" data-i18n="about.k1">Highlight</span>
+                <span class="kpi-v" data-i18n="about.v1">Reproducibility</span>
+              </div>
+              <div class="kpi-item">
+                <span class="kpi-k" data-i18n="about.k2">Style</span>
+                <span class="kpi-v" data-i18n="about.v2">Concise & structured</span>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section class="section" id="projects">
+      <div class="container">
+        <div class="section-head">
+          <h2 data-i18n="projects.h">Projects</h2>
+          <p class="muted" data-i18n="projects.sub">
+            研究2件＋インターン1件。クリックで詳細が開く。
+          </p>
+        </div>
+
+        <div class="filters" aria-label="絞り込み">
+          <button class="chip active" type="button" data-filter="all" aria-pressed="true" data-i18n="projects.fAll">All</button>
+          <button class="chip" type="button" data-filter="research" aria-pressed="false" data-i18n="projects.fRes">Research</button>
+          <button class="chip" type="button" data-filter="intern" aria-pressed="false" data-i18n="projects.fInt">Internship</button>
+          <button class="chip" type="button" data-filter="terminology" aria-pressed="false" data-i18n="projects.fTerm">Terminology</button>
+          <button class="chip" type="button" data-filter="translation" aria-pressed="false" data-i18n="projects.fTrans">Translation</button>
+        </div>
+
+        <div class="cards" id="projectGrid" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <!-- CASE STUDY -->
+    <section class="section" id="case">
+      <div class="container">
+        <div class="section-head">
+          <h2 data-i18n="case.h">Case Study</h2>
+          <p class="muted" data-i18n="case.sub">Problem → Approach → Result の1本深掘り。</p>
+        </div>
+
+        <article class="panel">
+          <h3 data-i18n="case.t">Example: Improving evaluation reliability</h3>
+          <div class="case-grid">
+            <div>
+              <p class="k" data-i18n="case.k1">Problem</p>
+              <p class="muted" data-i18n="case.v1">評価が一貫せず、比較が難しい状態だった。</p>
+            </div>
+            <div>
+              <p class="k" data-i18n="case.k2">Approach</p>
+              <p class="muted" data-i18n="case.v2">評価軸を定義し、手順をテンプレ化。複数条件で再現実験。</p>
+            </div>
+            <div>
+              <p class="k" data-i18n="case.k3">Result</p>
+              <p class="muted" data-i18n="case.v3">比較可能なログとレポートを整備し、意思決定を高速化。</p>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- EDUCATION -->
+    <section class="section" id="education">
+      <div class="container">
+        <div class="section-head">
+          <h2 data-i18n="edu.h">Education</h2>
+          <p class="muted" data-i18n="edu.sub">学んできたことの概要</p>
+        </div>
+
+        <div class="panel">
+          <ul class="edu">
+            <li>
+              <div class="edu-top">
+                <span class="edu-degree" data-i18n="edu.m">M.S. in ____</span>
+                <span class="edu-date" data-i18n="edu.mDate">Expected 20XX</span>
+              </div>
+              <div class="muted" data-i18n="edu.mTopic">Thesis/Research: ____ (1 line)</div>
+            </li>
+            <li>
+              <div class="edu-top">
+                <span class="edu-degree" data-i18n="edu.ab">Study Abroad: ____</span>
+                <span class="edu-date" data-i18n="edu.abDate">20XX</span>
+              </div>
+            </li>
+            <li>
+              <div class="edu-top">
+                <span class="edu-degree" data-i18n="edu.b">B.S. in ____</span>
+                <span class="edu-date" data-i18n="edu.bDate">20XX</span>
+              </div>
+              <div class="muted" data-i18n="edu.bTopic">Thesis/Research: ____ (1 line)</div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="section" id="contact">
+      <div class="container">
+        <div class="section-head">
+          <h2 data-i18n="contact.h">Contact</h2>
+          <p class="muted" data-i18n="contact.sub">リンクと連絡先。</p>
+        </div>
+
+        <div class="grid2">
+          <div class="panel">
+            <h3 data-i18n="contact.links">Links</h3>
+            <ul class="linklist">
+              <li><a href="https://www.linkedin.com/in/toshihide-fujii-6095502b6/ " target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+              <li><a href="https://github.com/tsukimidaifuku" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+              <li><a href="#" target="_blank" rel="noopener noreferrer" data-i18n="contact.resume">Resume (PDF)</a></li>
+            </ul>
+          </div>
+
+          <div class="panel">
+            <h3 data-i18n="contact.direct">Direct</h3>
+            <div class="contactBox">
+              <p><span class="label">Email</span> <a href="mailto:toshifujii1234@gmail.com">toshifujii1234[at]gmail.com</a></p>
+              <p><span class="label">Time</span> JST (UTC+9)</p>
+              <p><span class="label" data-i18n="contact.rolesK">Roles</span> <span data-i18n="contact.rolesV">____ / ____</span></p>
+            </div>
+            <div class="cta-row">
+              <a class="btn primary" href="mailto:toshifujii1234@gmail.com" data-i18n="contact.cta1">Email</a>
+              <a class="btn" href="#top" data-i18n="contact.cta2">Back to top</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- MODAL -->
+    <dialog class="modal" id="modal" aria-labelledby="modalTitle" aria-describedby="modalBody">
+      <div class="modal-head">
+        <h3 id="modalTitle">Project</h3>
+        <button class="chip" id="closeModal" type="button" aria-label="閉じる">Close</button>
+      </div>
+      <div class="modal-body" id="modalBody"></div>
+    </dialog>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>© <span id="year"></span> Toshihide Fujii</p>
+      <a href="#top" class="toTop" data-i18n="footer.top">Top</a>
+    </div>
+  </footer>
+</body>
+</html>
