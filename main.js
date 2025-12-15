@@ -17,10 +17,8 @@ if (yearEl) yearEl.textContent = new Date().getFullYear();
 const themeBtn = $("#themeBtn");
 const supportedThemes = new Set(["light", "dark"]);
 const storedTheme = safeStorageGet("theme");
-const prefersDark = typeof window !== "undefined"
-  && typeof window.matchMedia === "function"
-  && window.matchMedia("(prefers-color-scheme: dark)").matches;
-const initialTheme = supportedThemes.has(storedTheme) ? storedTheme : (prefersDark ? "dark" : "light");
+// デフォルトをLightに固定（ユーザー設定があればそれを優先）
+const initialTheme = supportedThemes.has(storedTheme) ? storedTheme : "light";
 document.documentElement.dataset.theme = initialTheme;
 
 if (themeBtn) {
@@ -212,8 +210,9 @@ const htmlKeys = new Set([
 ]);
 
 const supportedLangs = new Set(["ja", "en"]);
-let lang = safeStorageGet("lang") || "ja";
-if (!supportedLangs.has(lang)) lang = "ja";
+// デフォルトをENに変更（ユーザー設定があればそれを優先）
+let lang = safeStorageGet("lang") || "en";
+if (!supportedLangs.has(lang)) lang = "en";
 setLanguage(lang);
 
 const langBtn = $("#langBtn");
