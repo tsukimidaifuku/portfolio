@@ -77,17 +77,17 @@ const dict = {
     "about.sub": "評価設計と評価運用を、実務で使える成果物に",
     "about.h3a": "Summary",
     "about.p1": "修士課程で文芸翻訳領域のMT/LLM品質評価を研究し、MQM/SCATEを参考に日本語・文芸作品特有の観点を含む評価枠組みを設計しています。",
-    "about.li1": "評価設計（分類・指標）→ 分析 → レビューに落とし込み",
-    "about.li2": "ターミノロジー翻訳（WIPO Pearl：<a href=\"https://wipopearl.wipo.int/en/fullrecord/22147\" target=\"_blank\" rel=\"noopener noreferrer\">翻訳例</a>）",
-    "about.li3": "英語環境での協働（翻訳/ターミノロジーマネージャー）",
+    "about.li1": "評価設計（分類・指標）→ 評価 → 翻訳品質分析",
+    "about.li2": "専門語彙翻訳（WIPO Pearl：<a href=\"https://wipopearl.wipo.int/en/fullrecord/22147\" target=\"_blank\" rel=\"noopener noreferrer\">翻訳例</a>）",
+    "about.li3": "海外での勤務経験（WIPO）",
     "about.h3b": "Skills",
     "about.k1": "Highlight",
     "about.v1": "翻訳評価設計・分析",
     "about.k2": "Style",
-    "about.v2": "根拠に基づく判断・明示的な評価",
+    "about.v2": "根拠に基づく判断・<br>明示的な評価",
 
     "projects.h": "Projects",
-    "projects.sub": "修士研究2件・WIPO terminology fellowship・翻訳講師経験。クリックで詳細（役割・成果物）を表示。",
+    "projects.sub": "修士研究２件・WIPO terminology fellowship・翻訳講師。クリックで詳細を表示。",
     "projects.fAll": "All",
     "projects.fRes": "Research",
     "projects.fInt": "Internship",
@@ -96,19 +96,19 @@ const dict = {
 
     "case.h": "Case Study",
     "case.sub": "Problem → Approach → Result",
-    "case.t": "Case Study: 英日文芸作品のMT/LLM評価フレームワーク作成",
+    "case.t": "Case Study: 英日文芸小説のMT/LLM評価フレームワーク作成",
     "case.k1": "Problem",
     "case.v1": "MT/LLM翻訳に対する標準的な自動評価や人手評価では、文芸翻訳・日本語特有の翻訳品質が捉えづらかった。",
     "case.k2": "Approach",
     "case.v2": "MQM/SCATEを参考に独自のエラー分類・評価観点を40項目分設計し、複数MT/LLMを同一条件で分析。定性・定量の両面での評価を行い、システムの強み/弱みを明示する。",
     "case.k3": "Result",
-    "case.v3": "従来より多角的にシステム別の強み/弱みを診断。様々なMT/LLMに対して実運用可能な評価フレームワークとして提示。",
+    "case.v3": "従来より多角的にシステム別の強み/弱みを診断。様々なMT/LLMに対して実運用可能な評価フレームワークとしてまとめた。",
 
     "edu.h": "Education",
     "edu.sub": "学んできたことの概要",
     "edu.m": "修士（M.S.）東京大学大学院 学際情報学府 学際情報学専攻（図書館情報学研究室）",
     "edu.mDate": "2026年3月 修了見込み",
-    "edu.mTopic": "研究：英日文芸翻訳領域におけるMT/LLM評価フレームワーク作成・その評価",
+    "edu.mTopic": "研究：英日文芸翻訳領域におけるMT/LLM評価フレームワーク作成・MT評価",
     "edu.ab": "留学（Study Abroad）スウェーデン王立工科大学",
     "edu.abDate": "2024年1月 - 2024年6月",
     "edu.b": "学士（B.S.）東京大学 工学部 物理工学科（香取・牛島研究室）",
@@ -206,7 +206,8 @@ const dict = {
 };
 
 const htmlKeys = new Set([
-  "about.li2"
+  "about.li2",
+  "about.v2"
 ]);
 
 const supportedLangs = new Set(["ja", "en"]);
@@ -260,20 +261,20 @@ const projects = [
       en: "Research: Designing an MT/LLM Evaluation Framework for EN/JA Literary Translation"
     },
     summary: {
-      ja: "MQM/SCATEを参考に、日本語、文芸翻訳特有の観点を含む評価指標・手法を設計し、MT/LLMの出力を分析。",
+      ja: "MQM/SCATEを参考にしながら、日本語・文芸翻訳特有の観点を含む評価スキームを設計し、MT/LLMの出力を分析。",
       en: "Designed an MQM/SCATE-inspired taxonomy and JP/literary-focused evaluation metrics to analyze multiple MT systems and LLM outputs."
     },
     tags: ["research", "writing", "mt", "evaluation"],
     details: {
       ja: {
-        overview: "文芸翻訳領域で、標準的な評価手法では捉えにくいエラーや良さを、特に日本語・文芸作品特有の観点まで分解して分析できる評価枠組みを設計。",
+        overview: "文芸翻訳領域において、標準的な評価手法では捉えにくいエラーや良さを、特に日本語・文芸作品特有の観点まで分解して分析できる評価枠組みを設計。",
         role: "評価設計 / MT・LLM実行 / 解析（アノテーション） / 論文執筆",
         deliverables: [
           "GitHub（自動評価スクリプト例）: https://github.com/tsukimidaifuku/COMET-trial",
         ],
         impact: [
-          "システム別の強み/弱みを、従来の自動・人手評価では見えない粒度で分析",
-          "人手評価や実運用にも用いられる “評価ガイドライン” として整理"
+          "システム別の強み・弱みを、従来の自動・人手評価では見えない粒度で分析",
+          "人手評価や実運用にも用いられる評価スキームとして整理"
         ],
         stack: "Python / LLM APIs / Evaluation Scripts / MQM"
       },
@@ -299,19 +300,20 @@ const projects = [
       en: "Research: Terminology Generation & Expansion (GNN)"
     },
     summary: {
-      ja: "グラフ構造で用語の生成/拡張を捉え、用語管理・更新の理解に繋げる。",
+      ja: "グラフ構造で用語の生成・拡張を捉え、用語管理・更新の理解に繋げる。",
       en: "Used graph structures to analyze how terminology is generated and expanded."
     },
     tags: ["research", "terminology", "gnn"],
     details: {
       ja: {
-        overview: "専門用語の生成・拡張を、関係構造（グラフ）としてモデル化し分析。用語が変化する理由やパターンの把握に繋げる研究。",
+        overview: "専門用語の生成・拡張を、関係構造（グラフ）としてモデル化し分析。用語が拡張するパターンの把握に繋げる研究。",
         role: "GNN側の概念設計 / スクリプト実装 / 実験 / 論文執筆",
         deliverables: [
           "Conceptual paper（共著・second author、発表済/投稿済）: Terminologists as Social Custodians of Knowledge: Clarifying the Expertise of Terminologists and the Status of Terminologies",
+          "Technical paper（共著・first author、未発表/投稿済（ACL2026））: Graph Neural Networks for Automatic Term Generation: Defining and Exploring Terminological Graph",
         ],
         impact: [
-          "グラフ構造により、用語変化の特徴を捉えられる見込みを示した（詳細は公開前の非公開範囲あり）"
+          "グラフ構造により、専門語彙生成の特徴を捉えられる見込みを示した（詳細は公開前の非公開範囲あり）"
         ],
         stack: "Python / GNN (PyG/NetworkX) / sklearn"
       },
@@ -320,6 +322,7 @@ const projects = [
         role: "Concept design (GNN) / Implementation / Experiments / Paper writing",
         deliverables: [
           "Conceptual paper (2nd author; presented/submitted): Terminologists as Social Custodians of Knowledge: Clarifying the Expertise of Terminologists and the Status of Terminologies",
+          "Technical paper (1st author; not yet published/submitted (ACL2026)): Graph Neural Networks for Automatic Term Generation: Defining and Exploring Terminological Graph",
         ],
         impact: [
           "Early results suggest graph structures capture meaningful terminology patterns (some details under non-disclosure before publication)"
@@ -336,20 +339,20 @@ const projects = [
       en: "Terminology fellowship: Evidence-based Terminology Translation for WIPO Pearl (EN/JA)"
     },
     summary: {
-      ja: "ソースつきで専門用語訳を作成（約800語）。英語環境（海外）・国際機関で専門用語/翻訳マネージャーと協働。",
+      ja: "ソースつきで専門用語翻訳を作成（約800語）。英語環境（海外）・国際機関での勤務。",
       en: "Translated ~800 terms with evidence sources and collaborated with terminology and translation managers in an English-speaking environment (overseas) and international organizations."
     },
     tags: ["intern", "writing", "terminology", "translation"],
     details: {
       ja: {
-        overview: "国連の専門機関で、専門用語訳を実施。翻訳の正確性を重視してソースつきで作成。",
-        role: "専門用語訳 / ソース提示 / 特許文書ベースのコーパス作成",
+        overview: "国連の専門機関で、専門用語翻訳を実施。翻訳の正確性を重視してソースつきで作成。",
+        role: "専門用語翻訳 / 根拠提示 / 特許文書ベースのコーパス作成",
         deliverables: [
           "WIPO Pearl: <a href=\"https://wipopearl.wipo.int/en/fullrecord/22147\" target=\"_blank\" rel=\"noopener noreferrer\">一部翻訳例</a>"
         ],
         impact: [
           "約800語の専門用語訳（ソース付き）",
-          "シニア翻訳マネージャー・専門用語マネージャーと協働（英語・海外で勤務）"
+          "シニア翻訳マネージャー・専門用語マネージャーと協働（英語環境・海外で勤務）"
         ],
         stack: "Termbase workflow / Documentation / translation management tools"
       },
@@ -371,7 +374,7 @@ const projects = [
   {
     id: "t1",
     title: {
-      ja: "大学図書館職員向け翻訳勉強会・講師",
+      ja: "大学図書館職員向け翻訳勉強会の講師",
       en: "Translation Study Group Instructor for University Library Staff"
     },
     summary: {
@@ -381,8 +384,8 @@ const projects = [
     tags: ["writing", "translation", "teaching"],
     details: {
       ja: {
-        overview: "大学図書館職員向け翻訳勉強会の講師。参加者の訳文をレビューし、良い点/改善点を言語化してフィードバック。品質の観点（正確性・流暢性）での分析習慣を強化。翻訳例の提示。",
-        role: "講師 / レビュー / コメント / 改善提案",
+        overview: "大学図書館職員向け翻訳勉強会の講師。参加者の訳文をレビューし、良い点/改善点を言語化してフィードバック。翻訳品質の観点からの分析をおこなった。また翻訳例の提示もおこなった。",
+        role: "講師 / レビュー / コメント / 改善点の言語化",
         deliverables: [
           "使用教材（論文）: <a href=\"https://link.springer.com/article/10.1007/s11042-024-20016-1\" target=\"_blank\" rel=\"noopener noreferrer\">Generative artificial intelligence: a systematic review and applications</a>"
         ],

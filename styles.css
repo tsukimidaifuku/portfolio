@@ -38,8 +38,9 @@
 
   /* 言語別の微調整 */
   body:lang(ja) {
-    letter-spacing: 0.03em;
-    line-height: 1.8;
+    letter-spacing: 0.05em;
+    line-height: 1.9;
+    word-spacing: 0.05em;
   }
   body:lang(en) {
     letter-spacing: 0;
@@ -379,9 +380,9 @@
   
   /* --- Language Optimizations (Details) --- */
   
-  /* Japanese: 読みやすさと美しさのための詰め */
+  /* Japanese: 読みやすさのため等幅表示（paltを使用しない） */
   body:lang(ja) {
-    font-feature-settings: "palt";
+    font-feature-settings: "kern";
   }
   /* English: 標準的なカーニングとリガチャ */
   body:lang(en) {
@@ -404,8 +405,8 @@
   
   /* 純粋な日本語のパラグラフのみ広めにする */
   body:lang(ja) p, body:lang(ja) li, body:lang(ja) dd {
-    letter-spacing: 0.03em;
-    font-feature-settings: "palt";
+    letter-spacing: 0.06em;
+    line-height: 1.95;
   }
 
   :lang(en) h1, :lang(en) h2, :lang(en) h3,
