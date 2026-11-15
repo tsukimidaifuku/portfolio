@@ -1,277 +1,324 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Portfolio | Toshihide Fujii</title>
-  <meta name="description" content="Master’s projects (2) + internship work. Research-to-industry portfolio." />
-  <meta name="theme-color" content="#111111" />
-  <link rel="stylesheet" href="styles.css" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Toshihide Fujii — NLP and LLM research portfolio. Machine translation evaluation and graph-based terminology generation.">
+  <meta name="theme-color" content="#e6eaed">
+  <title>Toshihide Fujii | Research Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gentium+Book+Plus&amp;family=Hina+Mincho&amp;family=Kalam&amp;family=Klee+One:wght@600&amp;family=Zen+Kurenaido&amp;display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Comic+Neue&amp;display=swap&amp;text=read%20mobcktlis">
+  <link rel="stylesheet" href="styles.css">
   <script defer src="main.js"></script>
 </head>
-
 <body>
-  <a class="skip" href="#main">本文へスキップ</a>
-
-  <header class="site-header">
-    <div class="container header-inner">
-      <a class="brand" href="#top">
-        <span class="brand-mark" aria-hidden="true">TF</span>
-        <span class="brand-name">Toshihide Fujii</span>
-      </a>
-
-      <nav class="nav" aria-label="サイト内メニュー">
-        <a href="#about" data-i18n="nav.about">About</a>
-        <a href="#projects" data-i18n="nav.projects">Projects</a>
-        <a href="#case" data-i18n="nav.case">Case Study</a>
+  <a class="skip" href="#main" data-i18n="ui.skip">Skip to content</a>
+  <div class="page" id="top">
+    <header class="topbar">
+      <nav class="nav" id="siteNav" aria-label="Main navigation" data-i18n-label="ui.navigation">
+        <a href="#research" data-i18n="nav.research">Research</a>
+        <a href="#experience" data-i18n="nav.experience">Experience</a>
+        <a href="#publications" data-i18n="nav.publications">Publications</a>
         <a href="#education" data-i18n="nav.education">Education</a>
+        <a href="#about" data-i18n="about.h3b">Skills</a>
         <a href="#contact" data-i18n="nav.contact">Contact</a>
       </nav>
-
       <div class="header-actions">
-        <button class="chip" id="langBtn" type="button" aria-label="言語切り替え">JP / EN</button>
-        <button class="chip" id="themeBtn" type="button" aria-label="テーマ切り替え">Light / Dark</button>
-        <button class="menuBtn" id="menuBtn" type="button" aria-label="メニューを開く" aria-controls="mobileNav" aria-expanded="false">Menu</button>
+        <button class="text-button js-only" id="menuBtn" type="button" aria-controls="siteNav" aria-expanded="false" data-i18n="ui.menu">Menu</button>
+        <button class="text-button js-only" id="langBtn" type="button" aria-label="日本語に切り替え">EN / JP</button>
+        <button class="text-button js-only" id="themeBtn" type="button" aria-pressed="false" data-i18n="ui.dark">Dark</button>
+        <a class="cv-button" href="resume.pdf" target="_blank" rel="noopener noreferrer"><span data-i18n="ui.resume">Résumé PDF</span><span aria-hidden="true">↗</span></a>
       </div>
-    </div>
+    </header>
 
-    <div class="mobileNav" id="mobileNav" hidden>
-      <a href="#about" data-i18n="nav.about">About</a>
-      <a href="#projects" data-i18n="nav.projects">Projects</a>
-      <a href="#case" data-i18n="nav.case">Case Study</a>
-      <a href="#education" data-i18n="nav.education">Education</a>
-      <a href="#contact" data-i18n="nav.contact">Contact</a>
-    </div>
-  </header>
-
-  <main id="main">
-    <!-- TOP / HERO -->
-    <section class="hero" id="top">
-      <div class="container hero-inner">
-        <div class="hero-copy">
-          <p class="eyebrow" data-i18n="hero.eyebrow">Master’s Student / Research + Internship</p>
-          <h1 class="hero-title" data-i18n="hero.title">
-            portfolio
-          </h1>
-
-          <p class="hero-lead" data-i18n="hero.lead">
-            修士研究2件とインターンの成果のまとめ。
-          </p>
-
-          <div class="cta-row">
-            <a class="btn primary" href="#projects" data-i18n="hero.cta1">View projects</a>
-            <a class="btn" href="#contact" data-i18n="hero.cta2">Contact</a>
-            <a class="btn" href="resume.pdf" target="_blank" rel="noopener noreferrer" data-i18n="hero.cta3">Download Resume (PDF)</a>
+    <main id="main" tabindex="-1">
+      <section class="hero" aria-labelledby="profile-name">
+        <div class="identity">
+          <h1 id="profile-name" lang="en">Toshihide Fujii</h1>
+          <div class="identity-subline">
+            <span class="field-label" data-i18n="hero.f1k">Focus</span>
+            <p class="hero-sub" data-i18n="hero.f1v">Translation evaluation / Term generation</p>
           </div>
-
-          <dl class="facts">
-            <div><dt data-i18n="hero.f1k">Focus</dt><dd data-i18n="hero.f1v">Clear documentation & reproducible results</dd></div>
-            <div><dt data-i18n="hero.f2k">Strengths</dt><dd data-i18n="hero.f2v">Analysis • Writing • Collaboration</dd></div>
-            <div><dt data-i18n="hero.f3k">Location</dt><dd>Japan (JST)</dd></div>
-          </dl>
+          <div class="hero-meta">
+            <p data-i18n="hero.degree">Master’s degree, The University of Tokyo</p>
+            <p data-i18n="hero.fellow">WIPO Terminology Fellow (2024)</p>
+            <a class="text-link" href="#about" id="profileLink" data-i18n="ui.profile">Profile</a>
+          </div>
         </div>
 
-        <aside class="hero-card" aria-label="プロフィール">
-          <p class="name">Toshihide Fujii</p>
-          <p class="role" data-i18n="hero.role">Target roles: ____ / ____ / ____</p>
-
-          <div class="split">
-            <div>
-              <p class="k" data-i18n="hero.k1">Tools</p>
-              <p class="v">Python / Git / LLM APIs</p>
-            </div>
-            <div>
-              <p class="k" data-i18n="hero.k2">Languages</p>
-              <p class="v">Japanese / English</p>
-            </div>
+        <section class="atlas" id="places" aria-labelledby="places-title">
+          <h2 id="places-title" data-i18n="places.title">Places lived</h2>
+          <div class="world-map" aria-hidden="true">
+            <img src="world-map.svg" alt="" width="600" height="252">
+            <button class="map-pin pin-united-states js-only" type="button" data-place="us" tabindex="-1" aria-label="United States"></button>
+            <button class="map-pin pin-sweden js-only" type="button" data-place="se" tabindex="-1" aria-label="Sweden"></button>
+            <button class="map-pin pin-switzerland js-only" type="button" data-place="ch" tabindex="-1" aria-label="Switzerland"></button>
+            <button class="map-pin pin-japan js-only" type="button" data-place="jp" tabindex="-1" aria-label="Japan"></button>
           </div>
-        </aside>
-      </div>
-    </section>
-
-    <!-- ABOUT -->
-    <section class="section" id="about">
-      <div class="container">
-        <div class="section-head">
-          <h2 data-i18n="about.h">About</h2>
-          <p class="muted" data-i18n="about.sub">役割と強み</p>
-        </div>
-
-        <div class="grid2">
-          <article class="panel">
-            <h3 data-i18n="about.h3a">Summary</h3>
-            <p data-i18n="about.p1">
-              修士課程の研究。研究成果。
-            </p>
-            <ul class="checklist">
-              <li data-i18n="about.li1">課題定義 → 実験設計 → 評価 → ドキュメント化</li>
-              <li data-i18n="about.li2">分かりやすい文章・図解（読み手の負荷を下げる）</li>
-              <li data-i18n="about.li3">チームでの合意形成（仕様・評価軸・優先度）</li>
-            </ul>
-          </article>
-
-          <article class="panel">
-            <h3 data-i18n="about.h3b">Skills</h3>
-            <div class="pill-row">
-                          <span class="pill">Localization Quality</span>
-                          <span class="pill">Terminology</span>
-                          <span class="pill">MT/LLM Evaluation</span>
-                          <span class="pill">Translation</span>
-                          <span class="pill">Technical Writing</span>
-                          <span class="pill">Natural Language Processing</span>
-                
+          <div class="places-list">
+            <a href="#education" data-place="jp" data-i18n="places.jp">Japan</a>
+            <a href="#about" data-place="us" data-i18n="places.us">United States</a>
+            <a href="#education" data-place="se" data-i18n="places.se">Sweden</a>
+            <a href="#experience" data-place="ch" data-i18n="places.ch">Switzerland</a>
           </div>
+        </section>
+      </section>
 
-            <div class="kpi">
-              <div class="kpi-item">
-                <span class="kpi-k" data-i18n="about.k1">Highlight</span>
-                <span class="kpi-v" data-i18n="about.v1">Reproducibility</span>
+      <div class="overview">
+        <section id="projects" aria-label="Projects" data-i18n-label="projects.h">
+          <div class="filters js-only" role="group" aria-label="Filter projects" data-i18n-label="ui.filter">
+            <button type="button" data-filter="all" aria-pressed="true" data-i18n="projects.fAll">All</button>
+            <button type="button" data-filter="research" aria-pressed="false" data-i18n="projects.fRes">Research</button>
+            <button type="button" data-filter="intern" aria-pressed="false" data-i18n="projects.fInt">Internship</button>
+            <button type="button" data-filter="terminology" aria-pressed="false" data-i18n="projects.fTerm">Terminology</button>
+            <button type="button" data-filter="translation" aria-pressed="false" data-i18n="projects.fTrans">Translation</button>
+          </div>
+          <div class="sr-only" id="projectCount" role="status"></div>
+
+          <section class="loan-card" id="research" aria-labelledby="research-title">
+            <div class="card-heading">
+              <h2 id="research-title" data-i18n="nav.research">Research</h2>
+              <button class="section-note js-only" type="button" aria-expanded="false" aria-controls="research-records">
+              <span lang="en">read more</span><span aria-hidden="true" class="note-arrow">⤵</span>
+            </button>
+            </div>
+            <div class="loan-register" id="research-records">
+              <div class="loan-columns" aria-hidden="true"><span data-i18n="card.area">Area</span><span data-i18n="card.research">Research record</span></div>
+              <div id="researchGrid"></div>
+              <noscript>
+                <article class="record"><p class="entry-label">Terminology</p><div class="entry-body"><h3 class="entry-title">Terminology Generation &amp; Expansion (GNN)</h3></div></article>
+                <article class="record"><p class="entry-label">MT Evaluation</p><div class="entry-body"><h3 class="entry-title">An Evaluation Framework for EN/JA Literary Translation</h3></div></article>
+              </noscript>
+              <div class="loan-tail" aria-hidden="true"></div>
+            </div>
+          </section>
+
+          <section class="loan-card" id="experience" aria-labelledby="experience-title">
+            <div class="card-heading">
+              <h2 id="experience-title" data-i18n="nav.experience">Experience</h2>
+              <button class="section-note js-only" type="button" aria-expanded="false" aria-controls="experience-records">
+              <span lang="en">read more</span><span aria-hidden="true" class="note-arrow">⤵</span>
+            </button>
+            </div>
+            <div class="loan-register" id="experience-records">
+              <div class="loan-columns" aria-hidden="true"><span data-i18n="card.period">Period / Area</span><span data-i18n="card.experience">Organization &amp; role</span></div>
+              <div id="experienceGrid"></div>
+              <noscript>
+                <article class="record"><p class="entry-label"><span class="stamp">2024.09–11</span></p><div class="entry-body"><h3 class="entry-title">WIPO · Japanese Terminology Fellow</h3></div></article>
+                <article class="record"><p class="entry-label">Translation</p><div class="entry-body"><h3 class="entry-title">Translation Study Group Instructor for University Library Staff</h3></div></article>
+              </noscript>
+              <div class="loan-tail" aria-hidden="true"></div>
+            </div>
+          </section>
+        </section>
+
+        <section class="loan-card" id="publications" aria-labelledby="publications-title">
+          <div class="card-heading">
+            <h2 id="publications-title" data-i18n="pub.h">Publications</h2>
+            <button class="section-note js-only" type="button" aria-expanded="false" aria-controls="publication-records">
+              <span lang="en">read more</span><span aria-hidden="true" class="note-arrow">⤵</span>
+            </button>
+          </div>
+          <div class="loan-register" id="publication-records">
+            <div class="loan-columns" aria-hidden="true"><span data-i18n="card.venue">Venue</span><span data-i18n="card.publication">Publication record</span></div>
+            <article class="record publication">
+              <div class="entry-label publication-meta">
+                <p class="stamp" data-i18n="pub.venue">EMNLP 2026 Findings</p>
+                <p class="publication-status" data-i18n="pub.status">Accepted · Presentation forthcoming</p>
               </div>
-              <div class="kpi-item">
-                <span class="kpi-k" data-i18n="about.k2">Style</span>
-                <span class="kpi-v" data-i18n="about.v2">Concise & structured</span>
+              <div class="entry-body">
+                <h3 class="entry-title">Graph Neural Networks for Automatic Term Generation: Defining and Exploring Terminological Graph</h3>
+                <p class="publication-author more-content" data-i18n="pub.author">First author</p>
+                <p class="record-summary more-content" data-i18n="pub.contribution">Led concept development, implementation, experiments and paper writing.</p>
+                <a class="record-link more-content" href="#research" data-i18n="pub.project">Explore the research</a>
               </div>
-            </div>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <!-- PROJECTS -->
-    <section class="section" id="projects">
-      <div class="container">
-        <div class="section-head">
-          <h2 data-i18n="projects.h">Projects</h2>
-          <p class="muted" data-i18n="projects.sub">
-            研究2件＋インターン1件。クリックで詳細が開く。
-          </p>
-        </div>
-
-        <div class="filters" aria-label="絞り込み">
-          <button class="chip active" type="button" data-filter="all" aria-pressed="true" data-i18n="projects.fAll">All</button>
-          <button class="chip" type="button" data-filter="research" aria-pressed="false" data-i18n="projects.fRes">Research</button>
-          <button class="chip" type="button" data-filter="intern" aria-pressed="false" data-i18n="projects.fInt">Internship</button>
-          <button class="chip" type="button" data-filter="terminology" aria-pressed="false" data-i18n="projects.fTerm">Terminology</button>
-          <button class="chip" type="button" data-filter="translation" aria-pressed="false" data-i18n="projects.fTrans">Translation</button>
-        </div>
-
-        <div class="cards" id="projectGrid" aria-live="polite"></div>
-      </div>
-    </section>
-
-    <!-- CASE STUDY -->
-    <section class="section" id="case">
-      <div class="container">
-        <div class="section-head">
-          <h2 data-i18n="case.h">Case Study</h2>
-          <p class="muted" data-i18n="case.sub">Problem → Approach → Result の1本深掘り。</p>
-        </div>
-
-        <article class="panel">
-          <h3 data-i18n="case.t">Example: Improving evaluation reliability</h3>
-          <div class="case-grid">
-            <div>
-              <p class="k" data-i18n="case.k1">Problem</p>
-              <p class="muted" data-i18n="case.v1">評価が一貫せず、比較が難しい状態だった。</p>
-            </div>
-            <div>
-              <p class="k" data-i18n="case.k2">Approach</p>
-              <p class="muted" data-i18n="case.v2">評価軸を定義し、手順をテンプレ化。複数条件で再現実験。</p>
-            </div>
-            <div>
-              <p class="k" data-i18n="case.k3">Result</p>
-              <p class="muted" data-i18n="case.v3">比較可能なログとレポートを整備し、意思決定を高速化。</p>
-            </div>
+            </article>
+            <article class="record publication">
+              <div class="entry-label publication-meta">
+                <p class="stamp" data-i18n="pub.anlp1.venue">ANLP 2026</p>
+                <p class="publication-status" data-i18n="pub.anlp1.status">Presented · Poster and oral presentations</p>
+                <p class="stamp award" data-i18n="pub.anlp1.award">Award received (優秀賞)</p>
+              </div>
+              <div class="entry-body">
+                <h3 class="entry-title" data-i18n="pub.anlp1.title">Automatic Term Generation Based on Terminological Graphs: Framework, Methods and Evaluation</h3>
+                <p class="publication-original" lang="ja" data-en-only>(原題：専門語彙グラフに基づく自動用語生成枠組・手法・評価)</p>
+                <p class="publication-language more-content" data-i18n="pub.paper.language">English title translation · Paper in Japanese</p>
+                <p class="publication-author more-content" data-i18n="pub.author">First author</p>
+                <p class="record-summary more-content" data-i18n="pub.anlp1.relation">Foundational work for the EMNLP 2026 Findings paper.</p>
+              </div>
+            </article>
+            <article class="record publication">
+              <div class="entry-label publication-meta">
+                <p class="stamp" data-i18n="pub.anlp1.venue">ANLP 2026</p>
+                <p class="publication-status" data-i18n="pub.anlp2.status">Presented</p>
+              </div>
+              <div class="entry-body">
+                <h3 class="entry-title" data-i18n="pub.anlp2.title">Exploring the Applicability of Machine Translation to Literary Translation</h3>
+                <p class="publication-original" lang="ja" data-en-only>(原題：文芸翻訳における機械翻訳の利用可能性の検討)</p>
+                <p class="publication-language more-content" data-i18n="pub.paper.language">English title translation · Paper in Japanese</p>
+                <p class="publication-author more-content" data-i18n="pub.author">First author</p>
+                <p class="record-summary more-content" data-i18n="pub.anlp2.contribution">Based on part of the master’s thesis. Designed the evaluation framework and conducted MT/LLM runs, annotation, analysis and paper writing.</p>
+              </div>
+            </article>
+            <article class="record publication">
+              <div class="entry-label publication-meta">
+                <p class="stamp" data-i18n="pub.thesis.kind">Master’s thesis</p>
+                <p class="publication-status" data-i18n="pub.thesis.status">Submitted</p>
+              </div>
+              <div class="entry-body">
+                <h3 class="entry-title" data-i18n="pub.thesis.title">Exploring the Potential Use of Machine Translation in Literary Translation</h3>
+                <p class="publication-original" lang="ja" data-en-only>(原題：文芸翻訳に機械翻訳を利用する可能性の検討)</p>
+                <p class="publication-language more-content" data-i18n="pub.thesis.language">English title translation · Thesis in Japanese</p>
+                <p class="record-summary more-content" data-i18n="pub.thesis.relation">A study focused on mystery novels (subtitle: 推理小説を中心に). The ANLP 2026 literary-translation paper is based on part of this thesis.</p>
+              </div>
+            </article>
+            <div class="loan-tail" aria-hidden="true"></div>
           </div>
-        </article>
-      </div>
-    </section>
+        </section>
 
-    <!-- EDUCATION -->
-    <section class="section" id="education">
-      <div class="container">
-        <div class="section-head">
-          <h2 data-i18n="edu.h">Education</h2>
-          <p class="muted" data-i18n="edu.sub">学んできたことの概要</p>
-        </div>
-
-        <div class="panel">
-          <ul class="edu">
-            <li>
-              <div class="edu-top">
-                <span class="edu-degree" data-i18n="edu.m">M.S. in ____</span>
-                <span class="edu-date" data-i18n="edu.mDate">Expected 20XX</span>
-              </div>
-              <div class="muted" data-i18n="edu.mTopic">Thesis/Research: ____ (1 line)</div>
-            </li>
-            <li>
-              <div class="edu-top">
-                <span class="edu-degree" data-i18n="edu.ab">Study Abroad: ____</span>
-                <span class="edu-date" data-i18n="edu.abDate">20XX</span>
-              </div>
-            </li>
-            <li>
-              <div class="edu-top">
-                <span class="edu-degree" data-i18n="edu.b">B.S. in ____</span>
-                <span class="edu-date" data-i18n="edu.bDate">20XX</span>
-              </div>
-              <div class="muted" data-i18n="edu.bTopic">Thesis/Research: ____ (1 line)</div>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <!-- CONTACT -->
-    <section class="section" id="contact">
-      <div class="container">
-        <div class="section-head">
-          <h2 data-i18n="contact.h">Contact</h2>
-          <p class="muted" data-i18n="contact.sub">リンクと連絡先。</p>
-        </div>
-
-        <div class="grid2">
-          <div class="panel">
-            <h3 data-i18n="contact.links">Links</h3>
-            <ul class="linklist">
-              <li><a href="https://www.linkedin.com/in/toshihide-fujii-6095502b6/ " target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
-              <li><a href="https://github.com/tsukimidaifuku" target="_blank" rel="noopener noreferrer">GitHub</a></li>
-              <li><a href="resume.pdf" target="_blank" rel="noopener noreferrer" data-i18n="contact.resume">Resume (PDF)</a></li>
-            </ul>
+        <section class="loan-card" id="education" aria-labelledby="education-title">
+          <div class="card-heading">
+            <h2 id="education-title" data-i18n="edu.h">Education</h2>
+            <button class="section-note js-only" type="button" aria-expanded="false" aria-controls="education-records">
+              <span lang="en">read more</span><span aria-hidden="true" class="note-arrow">⤵</span>
+            </button>
           </div>
-
-          <div class="panel">
-            <h3 data-i18n="contact.direct">Direct</h3>
-            <div class="contactBox">
-              <p><span class="label">Email</span> <a href="mailto:toshifujii1234@gmail.com">toshifujii1234[at]gmail.com</a></p>
-              <p><span class="label">Time</span> JST (UTC+9)</p>
-              <p><span class="label" data-i18n="contact.rolesK">Roles</span> <span data-i18n="contact.rolesV">____ / ____</span></p>
-            </div>
-            <div class="cta-row">
-              <a class="btn primary" href="mailto:toshifujii1234@gmail.com" data-i18n="contact.cta1">Email</a>
-              <a class="btn" href="#top" data-i18n="contact.cta2">Back to top</a>
-            </div>
+          <div class="loan-register" id="education-records">
+            <div class="loan-columns" aria-hidden="true"><span data-i18n="card.period">Period / Area</span><span data-i18n="card.education">Institution &amp; degree</span></div>
+            <article class="record">
+              <p class="entry-label" data-i18n="edu.mDate">Master’s degree completed</p>
+              <div class="entry-body">
+                <h3 class="entry-title" data-i18n="edu.m">M.S. in University of Tokyo, Graduate School of Interdisciplinary Information Studies</h3>
+                <p class="record-summary" data-i18n="edu.mTopic">Master’s thesis: Exploring the Potential Use of Machine Translation in Literary Translation (原題：文芸翻訳に機械翻訳を利用する可能性の検討)</p>
+                <p class="record-summary more-content" data-i18n="edu.mDescription">English title translation · Thesis in Japanese. Focused on mystery novels (推理小説を中心に); part of the research was presented at ANLP 2026.</p>
+              </div>
+            </article>
+            <article class="record">
+              <p class="entry-label"><span class="stamp" data-i18n-label="edu.abDate">2024.01–06</span></p>
+              <div class="entry-body">
+                <h3 class="entry-title" data-i18n="edu.ab">Study Abroad: Royal Institute of Technology (KTH), Stockholm, Sweden</h3>
+                <p class="more-content"><a class="record-link" href="#places" data-i18n="places.se">Sweden</a></p>
+              </div>
+            </article>
+            <article class="record">
+              <p class="entry-label"><span class="stamp" data-i18n-label="edu.bDate">2019–2023</span></p>
+              <div class="entry-body">
+                <h3 class="entry-title" data-i18n="edu.b">B.S. in University of Tokyo, Faculty of Engineering, Department of Applied Physics (Katori/Ushijima Laboratory)</h3>
+                <p class="record-summary more-content" data-i18n="edu.bTopic">Research: Development and evaluation of a portable optical lattice clock</p>
+              </div>
+            </article>
+            <div class="loan-tail" aria-hidden="true"></div>
           </div>
-        </div>
+        </section>
+
+        <section class="loan-card" id="about" aria-labelledby="about-title">
+          <div class="card-heading">
+            <h2 id="about-title" data-i18n="about.h3b">Skills</h2>
+            <button class="section-note js-only" type="button" aria-expanded="false" aria-controls="skills-records">
+              <span lang="en">read more</span><span aria-hidden="true" class="note-arrow">⤵</span>
+            </button>
+          </div>
+          <div class="loan-register" id="skills-records">
+            <div class="loan-columns" aria-hidden="true"><span data-i18n="card.area">Area</span><span data-i18n="card.skills">Methods &amp; tools</span></div>
+            <article class="record">
+              <h3 class="entry-label" data-i18n="about.h3a">Research practice</h3>
+              <div class="entry-body">
+                <p class="entry-title" data-i18n="hero.title">NLP &amp; LLM Research</p>
+                <p class="record-summary" data-i18n="hero.lead">Research in MT/LLM translation evaluation and graph-based terminology generation. My work spans evaluation design, Python experiments, and quantitative and qualitative analysis.</p>
+                <p class="record-summary more-content" data-i18n="about.p1">I define evaluation criteria around language phenomena and examine results through both metrics and examples. In collaborative research, I contributed GNN concept design, implementation and experiments.</p>
+                <ul class="detail-list more-content">
+                  <li data-i18n="about.li1">Evaluation: taxonomy and metric design, annotation, error analysis</li>
+                  <li data-i18n="about.li2">Implementation: Python, LLM APIs, PyG/NetworkX, sklearn</li>
+                  <li data-i18n="about.li3">Communication: paper writing, analysis and research collaboration</li>
+                </ul>
+              </div>
+            </article>
+            <article class="record">
+              <h3 class="entry-label" data-i18n="hero.k1">Tools</h3>
+              <div class="entry-body">Python · Git · LLM APIs · PyG · NetworkX · sklearn</div>
+            </article>
+            <article class="record">
+              <h3 class="entry-label" data-i18n="hero.k2">Languages</h3>
+              <div class="entry-body" data-i18n="about.languages">Japanese · English</div>
+            </article>
+            <div class="loan-tail" aria-hidden="true"></div>
+          </div>
+        </section>
+
+        <section class="loan-card" id="case" aria-labelledby="case-title">
+          <div class="card-heading">
+            <h2 id="case-title" data-i18n="case.h">Case Study</h2>
+            <button class="section-note js-only" type="button" aria-expanded="false" aria-controls="case-records">
+              <span lang="en">read more</span><span aria-hidden="true" class="note-arrow">⤵</span>
+            </button>
+          </div>
+          <div class="loan-register" id="case-records">
+            <div class="record">
+              <p class="entry-label" data-i18n="card.area">Area</p>
+              <div class="entry-body">
+                <h3 class="entry-title" data-i18n="case.t">Understanding where translations differ—and how.</h3>
+              </div>
+            </div>
+            <div class="record more-content">
+              <h3 class="entry-label" data-i18n="case.k1">Evaluation gap</h3>
+              <p class="entry-body" data-i18n="case.v1">Standard automatic and human evaluation can miss quality differences specific to EN–JA literary translation. Comparing systems required an explicit set of analytical criteria.</p>
+            </div>
+            <div class="record more-content">
+              <h3 class="entry-label" data-i18n="case.k2">Design decision</h3>
+              <p class="entry-body" data-i18n="case.v2">Built on MQM/SCATE to define 40 evaluation items covering Japanese and literary features, then analyzed outputs from multiple MT systems and LLMs under consistent conditions.</p>
+            </div>
+            <div class="record more-content">
+              <h3 class="entry-label" data-i18n="case.k3">Analysis</h3>
+              <p class="entry-body" data-i18n="case.v3">Combined quantitative evaluation with qualitative analysis of translations to characterize system strengths and weaknesses beyond an overall assessment.</p>
+            </div>
+            <div class="loan-tail" aria-hidden="true"></div>
+          </div>
+        </section>
+
+        <section class="loan-card" id="contact" aria-labelledby="contact-title">
+          <div class="card-heading">
+            <h2 id="contact-title" data-i18n="contact.h">Contact</h2>
+          </div>
+          <div class="loan-register">
+            <div class="record">
+              <h3 class="entry-label" data-i18n="contact.direct">Direct</h3>
+              <div class="entry-body">
+                <a class="record-link" href="mailto:toshifujii1234@gmail.com">toshifujii1234[at]gmail.com</a>
+                <p class="record-summary" data-i18n="contact.rolesV">NLP / LLM Research &amp; Development / Evaluation Design</p>
+                <p class="record-summary">JST (UTC+9)</p>
+              </div>
+            </div>
+            <div class="record">
+              <h3 class="entry-label" data-i18n="contact.links">Links</h3>
+              <ul class="entry-body contact-links">
+                <li><a class="record-link" href="https://www.linkedin.com/in/toshihide-fujii-6095502b6/" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a></li>
+                <li><a class="record-link" href="https://github.com/tsukimidaifuku" target="_blank" rel="noopener noreferrer">GitHub ↗</a></li>
+                <li><a class="record-link" href="resume.pdf" target="_blank" rel="noopener noreferrer" data-i18n="contact.resume">Résumé (PDF)</a></li>
+              </ul>
+            </div>
+            <div class="loan-tail" aria-hidden="true"></div>
+          </div>
+        </section>
       </div>
-    </section>
+    </main>
 
-
-    <!-- MODAL -->
-    <dialog class="modal" id="modal" aria-labelledby="modalTitle" aria-describedby="modalBody">
-      <div class="modal-head">
-        <h3 id="modalTitle">Project</h3>
-        <button class="chip" id="closeModal" type="button" aria-label="閉じる">Close</button>
-      </div>
-      <div class="modal-body" id="modalBody"></div>
-    </dialog>
-  </main>
-
-  <footer class="site-footer">
-    <div class="container footer-inner">
+    <footer class="site-footer">
       <p>© <span id="year"></span> Toshihide Fujii</p>
-      <a href="#top" class="toTop" data-i18n="footer.top">Top</a>
+      <a class="text-link" href="#top" data-i18n="footer.top">Back to top ↑</a>
+    </footer>
+  </div>
+
+  <dialog class="sheet" id="modal" aria-labelledby="modalTitle">
+    <div class="sheet-header">
+      <p id="modalCategory"></p>
+      <button class="text-button" id="closeModal" type="button" autofocus data-i18n="ui.close">Close</button>
     </div>
-  </footer>
+    <div class="sheet-body" id="sheetBody">
+      <h2 id="modalTitle"></h2>
+      <div id="modalBody"></div>
+    </div>
+  </dialog>
 </body>
 </html>

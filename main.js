@@ -1,268 +1,250 @@
-const $ = (s, el=document) => el.querySelector(s);
-const $$ = (s, el=document) => [...el.querySelectorAll(s)];
-
-function safeStorageGet(key){
-  try { return localStorage.getItem(key); } catch { return null; }
-}
-function safeStorageSet(key, value){
-  try { localStorage.setItem(key, value); } catch { /* ignore */ }
-}
-
-let projectsUIReady = false;
-
-const yearEl = $("#year");
-if (yearEl) yearEl.textContent = new Date().getFullYear();
-
-// --- Theme (light/dark) ---
-const themeBtn = $("#themeBtn");
-const supportedThemes = new Set(["light", "dark"]);
-const storedTheme = safeStorageGet("theme");
-// デフォルトをLightに固定（ユーザー設定があればそれを優先）
-const initialTheme = supportedThemes.has(storedTheme) ? storedTheme : "light";
-document.documentElement.dataset.theme = initialTheme;
-
-if (themeBtn) {
-  themeBtn.addEventListener("click", () => {
-    const cur = document.documentElement.dataset.theme || "light";
-    const next = cur === "light" ? "dark" : "light";
-    document.documentElement.dataset.theme = next;
-    safeStorageSet("theme", next);
-  });
-}
-
-// --- Mobile menu ---
-const menuBtn = $("#menuBtn");
-const mobileNav = $("#mobileNav");
-function setMobileNavOpen(open){
-  if (!menuBtn || !mobileNav) return;
-  if (open) mobileNav.removeAttribute("hidden");
-  else mobileNav.setAttribute("hidden", "");
-  menuBtn.setAttribute("aria-expanded", String(open));
-  menuBtn.setAttribute("aria-label", open ? "メニューを閉じる" : "メニューを開く");
-}
-if (menuBtn && mobileNav) {
-  menuBtn.addEventListener("click", () => {
-    setMobileNavOpen(mobileNav.hasAttribute("hidden"));
-  });
-  $$("#mobileNav a").forEach(a => {
-    a.addEventListener("click", () => setMobileNavOpen(false));
-  });
-}
-
-// --- i18n ---
 const dict = {
-  ja: {
-    "nav.about": "About",
-    "nav.projects": "Projects",
-    "nav.case": "Case Study",
-    "nav.education": "Education",
-    "nav.contact": "Contact",
-
-    "hero.eyebrow": "Portfolio（JP/EN）｜修士課程＋インターンシップ",
-    "hero.title": "MT Evaluation / Terminology（JP/EN）",
-    "hero.lead": "修士課程ではMQM/SCATEを参考に英日文芸翻訳用の評価指標を作成し、MT/LLMの出力を定量/定性で分析しています。また共同研究やWIPOでのインターンなどでターミノロジー関連の実務作業も行っています。",
-    "hero.cta1": "View projects",
-    "hero.cta2": "Contact",
-    "hero.cta3": "Download Resume (PDF)",
-    "hero.f1k": "Focus",
-    "hero.f1v": "機械翻訳品質評価（英日）（対象：文芸作品）",
-    "hero.f2k": "Strengths",
-    "hero.f2v": "MT/LLM評価・ターミノロジー・翻訳・自然言語処理",
-    "hero.f3k": "Location",
-    "hero.role": "Target Role: Product Language / Localization Quality / Terminology / MT Evaluation",
-    "hero.k1": "Tools",
-    "hero.k2": "Languages",
-
-    "about.h": "About",
-    "about.sub": "評価設計と評価運用を、実務で使える成果物に",
-    "about.h3a": "Summary",
-    "about.p1": "修士課程で文芸翻訳領域のMT/LLM品質評価を研究し、MQM/SCATEを参考に日本語・文芸作品特有の観点を含む評価枠組みを設計しています。",
-    "about.li1": "評価設計（分類・指標）→ 評価 → 翻訳品質分析",
-    "about.li2": "専門語彙翻訳（WIPO Pearl：<a href=\"https://wipopearl.wipo.int/en/fullrecord/22147\" target=\"_blank\" rel=\"noopener noreferrer\">翻訳例</a>）",
-    "about.li3": "海外での勤務経験（WIPO）",
-    "about.h3b": "Skills",
-    "about.k1": "Highlight",
-    "about.v1": "翻訳評価設計・分析",
-    "about.k2": "Style",
-    "about.v2": "根拠に基づく判断・<br>明示的な評価",
-
-    "projects.h": "Projects",
-    "projects.sub": "修士研究２件・WIPO terminology fellowship・翻訳講師。クリックで詳細を表示。",
-    "projects.fAll": "All",
-    "projects.fRes": "Research",
-    "projects.fInt": "Internship",
-    "projects.fTerm": "Terminology",
-    "projects.fTrans": "Translation",
-
-    "case.h": "Case Study",
-    "case.sub": "Problem → Approach → Result",
-    "case.t": "Case Study: 英日文芸小説のMT/LLM評価フレームワーク作成",
-    "case.k1": "Problem",
-    "case.v1": "MT/LLM翻訳に対する標準的な自動評価や人手評価では、文芸翻訳・日本語特有の翻訳品質が捉えづらかった。",
-    "case.k2": "Approach",
-    "case.v2": "MQM/SCATEを参考に独自のエラー分類・評価観点を40項目分設計し、複数MT/LLMを同一条件で分析。定性・定量の両面での評価を行い、システムの強み/弱みを明示する。",
-    "case.k3": "Result",
-    "case.v3": "従来より多角的にシステム別の強み/弱みを診断。様々なMT/LLMに対して実運用可能な評価フレームワークとしてまとめた。",
-
-    "edu.h": "Education",
-    "edu.sub": "学んできたことの概要",
+  "ja": {
+    "ui.skip": "本文へ移動",
+    "ui.navigation": "メインナビゲーション",
+    "ui.menu": "メニュー",
+    "ui.dark": "ダーク",
+    "ui.resume": "履歴書 PDF",
+    "ui.profile": "プロフィール",
+    "ui.filter": "プロジェクトの絞り込み",
+    "ui.close": "閉じる",
+    "ui.expand": "詳しく読む",
+    "ui.collapse": "一覧に戻る",
+    "nav.research": "研究",
+    "nav.experience": "職歴",
+    "card.area": "分野",
+    "card.period": "期間・分野",
+    "card.research": "研究内容",
+    "card.experience": "所属・職務",
+    "card.venue": "掲載・発表先",
+    "card.publication": "論文・発表",
+    "card.education": "所属・学位",
+    "card.skills": "手法・ツール",
+    "hero.degree": "東京大学大学院 修士課程修了",
+    "hero.fellow": "WIPO 用語フェロー（2024）",
+    "about.languages": "日本語・英語",
+    "places.title": "居住地",
+    "places.jp": "日本",
+    "places.us": "アメリカ",
+    "places.se": "スウェーデン",
+    "places.ch": "スイス",
+    "nav.education": "学歴",
+    "nav.contact": "連絡先",
+    "hero.title": "自然言語処理・LLMの研究",
+    "hero.lead": "自然言語処理の研究として、MT／LLMの翻訳品質評価と、GNNによる専門用語の生成・拡張に取り組んできました。評価の設計からPythonによる実験、定量・定性分析までを担当しています。",
+    "hero.f1k": "専門",
+    "hero.f1v": "翻訳品質評価 / 専門用語生成",
+    "hero.k1": "ツール",
+    "hero.k2": "言語",
+    "about.h3a": "研究・分析",
+    "about.p1": "言語現象に即した評価観点を定義し、実験結果を数値と具体例の両面から分析します。共同研究ではGNNの概念設計・実装・実験を担当しました。",
+    "about.li1": "評価設計：分類・指標の定義、アノテーション、エラー分析",
+    "about.li2": "実験実装：Python、LLM APIs、PyG／NetworkX、sklearn",
+    "about.li3": "研究の共有：論文執筆、分析結果の整理、共同研究",
+    "about.h3b": "スキル",
+    "projects.h": "プロジェクト",
+    "projects.fAll": "すべて",
+    "projects.fRes": "研究",
+    "projects.fInt": "インターンシップ",
+    "projects.fTerm": "用語",
+    "projects.fTrans": "翻訳",
+    "case.h": "ケーススタディ",
+    "case.t": "翻訳の「どこが、どう違うか」を評価する。",
+    "case.k1": "評価の課題",
+    "case.v1": "標準的な自動評価や人手評価だけでは、英日文芸翻訳に固有の品質差を捉えにくい。システムを比較するために、分析する観点を明示する必要がありました。",
+    "case.k2": "評価設計",
+    "case.v2": "MQM／SCATEを土台に、日本語と文芸作品の特性を含む40項目の分類・評価観点を設計。複数のMT／LLM出力を同一条件で分析しました。",
+    "case.k3": "分析",
+    "case.v3": "定量評価と個々の訳文の定性分析を組み合わせ、システムごとの強み・弱みを整理。総合的な評価だけでは見えにくい違いを、多角的に検討しました。",
+    "edu.h": "学歴",
     "edu.m": "修士（M.S.）東京大学大学院 学際情報学府 学際情報学専攻（図書館情報学研究室）",
-    "edu.mDate": "2026年3月 修了見込み",
-    "edu.mTopic": "研究：英日文芸翻訳領域におけるMT/LLM評価フレームワーク作成・MT評価",
+    "edu.mDate": "修士課程修了",
+    "edu.mTopic": "修士論文：文芸翻訳に機械翻訳を利用する可能性の検討",
     "edu.ab": "留学（Study Abroad）スウェーデン王立工科大学",
     "edu.abDate": "2024年1月 - 2024年6月",
     "edu.b": "学士（B.S.）東京大学 工学部 物理工学科（香取・牛島研究室）",
-    "edu.bDate": "2023年3月 卒業",
+    "edu.bDate": "2019年4月 – 2023年3月",
     "edu.bTopic": "研究：可搬型光格子時計の開発・評価",
-
-    "contact.h": "Contact",
-    "contact.sub": "リンクと連絡先",
-    "contact.links": "Links",
-    "contact.resume": "Resume (PDF)",
-    "contact.direct": "Direct",
-    "contact.rolesK": "Roles",
-    "contact.rolesV": "Product Language / Localization Quality / Terminology / MT Evaluation",
-    "contact.cta1": "Email",
-    "contact.cta2": "Back to top",
-
-    "footer.top": "Top",
+    "contact.h": "連絡先",
+    "contact.links": "リンク",
+    "contact.resume": "履歴書（PDF）",
+    "contact.direct": "メール・活動領域",
+    "contact.rolesV": "自然言語処理 / LLM研究開発 / 評価設計",
+    "footer.top": "ページ上部へ ↑",
+    "nav.publications": "論文・発表",
+    "pub.h": "論文・発表",
+    "pub.venue": "EMNLP 2026 Findings",
+    "pub.status": "採択・発表予定",
+    "pub.author": "筆頭著者",
+    "pub.contribution": "構想・実装・実験・論文執筆を主導",
+    "pub.project": "関連する研究を見る",
+    "pub.anlp1.venue": "ANLP 2026",
+    "pub.anlp1.status": "発表済み · ポスター・口頭発表",
+    "pub.anlp1.award": "優秀賞受賞",
+    "pub.anlp1.relation": "EMNLP 2026 Findings採択論文の基礎となった研究。",
+    "pub.anlp2.status": "発表済み",
+    "pub.anlp2.contribution": "修士論文の一部に基づく研究発表。翻訳品質の評価枠組みを設計し、MT／LLMの実行、アノテーション・分析、論文執筆を担当。",
+    "pub.thesis.kind": "修士論文",
+    "pub.thesis.status": "提出済み",
+    "pub.thesis.relation": "推理小説を中心に検討した修士論文。ANLP 2026の文芸翻訳論文は、この修士論文の一部に基づく研究発表です。",
+    "pub.anlp1.title": "専門語彙グラフに基づく自動用語生成枠組・手法・評価",
+    "pub.anlp2.title": "文芸翻訳における機械翻訳の利用可能性の検討",
+    "pub.thesis.title": "文芸翻訳に機械翻訳を利用する可能性の検討",
+    "pub.paper.language": "日本語論文",
+    "pub.thesis.language": "日本語の修士論文",
+    "edu.mDescription": "日本語論文。推理小説を中心に検討。研究の一部をANLP 2026で発表。"
   },
-  en: {
-    "nav.about": "About",
-    "nav.projects": "Projects",
-    "nav.case": "Case Study",
+  "en": {
+    "ui.skip": "Skip to content",
+    "ui.navigation": "Main navigation",
+    "ui.menu": "Menu",
+    "ui.dark": "Dark",
+    "ui.resume": "Résumé PDF",
+    "ui.profile": "Profile",
+    "ui.filter": "Filter projects",
+    "ui.close": "Close",
+    "ui.expand": "Read more",
+    "ui.collapse": "Back to list",
+    "nav.research": "Research",
+    "nav.experience": "Experience",
+    "card.area": "Area",
+    "card.period": "Period / Area",
+    "card.research": "Research record",
+    "card.experience": "Organization & role",
+    "card.venue": "Venue",
+    "card.publication": "Publication record",
+    "card.education": "Institution & degree",
+    "card.skills": "Methods & tools",
+    "hero.degree": "Master’s degree, The University of Tokyo",
+    "hero.fellow": "WIPO Terminology Fellow (2024)",
+    "about.languages": "Japanese · English",
+    "places.title": "Places lived",
+    "places.jp": "Japan",
+    "places.us": "United States",
+    "places.se": "Sweden",
+    "places.ch": "Switzerland",
     "nav.education": "Education",
     "nav.contact": "Contact",
-
-    "hero.eyebrow": "Portfolio (JP/EN) | Master’s + Internship",
-    "hero.title": "MT Evaluation / Terminology (JP/EN)",
-    "hero.lead": "Master’s student focused on MT/LLM quality evaluation for EN→JA literary translation. Built an MQM/SCATE-inspired taxonomy and evaluation workflow; applied it to multiple MT systems and LLM outputs. Practical terminology experience from WIPO (Geneva) and JP/EN research collaboration.",
-    "hero.cta1": "View projects",
-    "hero.cta2": "Contact",
-    "hero.cta3": "Download Resume (PDF)",
+    "hero.title": "NLP & LLM Research",
+    "hero.lead": "Research in MT/LLM translation evaluation and graph-based terminology generation. My work spans evaluation design, Python experiments, and quantitative and qualitative analysis.",
     "hero.f1k": "Focus",
-    "hero.f1v": "MT/LLM Evaluation (EN→JA) (Domain: Literary Translation)",
-    "hero.f2k": "Strengths",
-    "hero.f2v": "MT/LLM evaluation | Terminology | Translation | NLP",
-    "hero.f3k": "Location",
-    "hero.role": "Target Role: Product Language / Localization Quality / Terminology / MT Evaluation",
+    "hero.f1v": "Translation evaluation / Term generation",
     "hero.k1": "Tools",
     "hero.k2": "Languages",
-
-    "about.h": "About",
-    "about.sub": "Turning research into practical evaluation standards.",
-    "about.h3a": "Summary",
-    "about.p1": "Master’s student researching MT/LLM quality evaluation for literary translation, building a JP-focused framework and taxonomy inspired by MQM/SCATE.",
-    "about.li1": "Evaluation design (classification/metrics) → analysis → review guidelines",
-    "about.li2": "Terminology translation (WIPO Pearl: <a href=\"https://wipopearl.wipo.int/en/fullrecord/22147\" target=\"_blank\" rel=\"noopener noreferrer\">Example</a>)",
-    "about.li3": "Cross-functional collaboration (translation/terminology manager)",
+    "about.h3a": "Research practice",
+    "about.p1": "I define evaluation criteria around language phenomena and examine results through both metrics and examples. In collaborative research, I contributed GNN concept design, implementation and experiments.",
+    "about.li1": "Evaluation: taxonomy and metric design, annotation, error analysis",
+    "about.li2": "Implementation: Python, LLM APIs, PyG/NetworkX, sklearn",
+    "about.li3": "Communication: paper writing, analysis and research collaboration",
     "about.h3b": "Skills",
-    "about.k1": "Highlight",
-    "about.v1": "Evaluation design・analysis",
-    "about.k2": "Style",
-    "about.v2": "Evidence-based decisions・explicit evaluation",
-
     "projects.h": "Projects",
-    "projects.sub": "Two master’s projects + WIPO terminology fellowship + teaching. Click to view role, deliverables, and impact.",
     "projects.fAll": "All",
     "projects.fRes": "Research",
     "projects.fInt": "Internship",
     "projects.fTerm": "Terminology",
     "projects.fTrans": "Translation",
-
     "case.h": "Case Study",
-    "case.sub": "One deep dive: Problem → Approach → Result.",
-    "case.t": "Case Study: Creating an MT/LLM Evaluation Framework for EN/JA Literary Translation",
-    "case.k1": "Problem",
-    "case.v1": "Standard automatic/human evaluation of MT/LLM translation often misses failure modes and Japanese-specific issues in literary translation quality.",
-    "case.k2": "Approach",
-    "case.v2": "Designed a 40-item taxonomy inspired by MQM/SCATE and evaluated multiple MT systems and LLM outputs under consistent conditions. Performed qualitative and quantitative evaluations to highlight system strengths and weaknesses.",
-    "case.k3": "Result",
-    "case.v3": "Analyzed system-level strengths and weaknesses from multiple perspectives compared to traditional automatic and human evaluation. Provided an evaluation framework that can be applied to various MT/LLM systems.",
-
+    "case.t": "Understanding where translations differ—and how.",
+    "case.k1": "Evaluation gap",
+    "case.v1": "Standard automatic and human evaluation can miss quality differences specific to EN–JA literary translation. Comparing systems required an explicit set of analytical criteria.",
+    "case.k2": "Design decision",
+    "case.v2": "Built on MQM/SCATE to define 40 evaluation items covering Japanese and literary features, then analyzed outputs from multiple MT systems and LLMs under consistent conditions.",
+    "case.k3": "Analysis",
+    "case.v3": "Combined quantitative evaluation with qualitative analysis of translations to characterize system strengths and weaknesses beyond an overall assessment.",
     "edu.h": "Education",
-    "edu.sub": "Summary of what I have learned.",
     "edu.m": "M.S. in University of Tokyo, Graduate School of Interdisciplinary Information Studies",
-    "edu.mDate": "April 2023 - March 2026 (Expected)",
-    "edu.mTopic": "Thesis/Research:Design an MT/LLM Evaluation Framework and its evaluation for EN/JA literary translation.",
+    "edu.mDate": "Master’s degree completed",
+    "edu.mTopic": "Master’s thesis: Exploring the Potential Use of Machine Translation in Literary Translation (原題：文芸翻訳に機械翻訳を利用する可能性の検討)",
     "edu.ab": "Study Abroad: Royal Institute of Technology (KTH), Stockholm, Sweden",
     "edu.abDate": "January 2024 - June 2024",
     "edu.b": "B.S. in University of Tokyo, Faculty of Engineering, Department of Applied Physics (Katori/Ushijima Laboratory)",
     "edu.bDate": "April 2019 - March 2023",
     "edu.bTopic": "Research: Development and evaluation of a portable optical lattice clock",
-
     "contact.h": "Contact",
-    "contact.sub": "Links and direct contact.",
     "contact.links": "Links",
-    "contact.resume": "Resume (PDF)",
+    "contact.resume": "Résumé (PDF)",
     "contact.direct": "Direct",
-    "contact.rolesK": "Roles",
-    "contact.rolesV": "Product Language / Localization Quality / Terminology / MT Evaluation",
-    "contact.cta1": "Email",
-    "contact.cta2": "Back to top",
-
-    "footer.top": "Top",
+    "contact.rolesV": "NLP / LLM Research & Development / Evaluation Design",
+    "footer.top": "Back to top ↑",
+    "nav.publications": "Publications",
+    "pub.h": "Publications",
+    "pub.venue": "EMNLP 2026 Findings",
+    "pub.status": "Accepted · Presentation forthcoming",
+    "pub.author": "First author",
+    "pub.contribution": "Led concept development, implementation, experiments and paper writing.",
+    "pub.project": "Explore the research",
+    "pub.anlp1.venue": "ANLP 2026",
+    "pub.anlp1.status": "Presented · Poster and oral presentations",
+    "pub.anlp1.award": "Award received (優秀賞)",
+    "pub.anlp1.relation": "Foundational work for the EMNLP 2026 Findings paper.",
+    "pub.anlp2.status": "Presented",
+    "pub.anlp2.contribution": "Based on part of the master’s thesis. Designed the evaluation framework and conducted MT/LLM runs, annotation, analysis and paper writing.",
+    "pub.thesis.kind": "Master’s thesis",
+    "pub.thesis.status": "Submitted",
+    "pub.thesis.relation": "A study focused on mystery novels (subtitle: 推理小説を中心に). The ANLP 2026 literary-translation paper is based on part of this thesis.",
+    "pub.anlp1.title": "Automatic Term Generation Based on Terminological Graphs: Framework, Methods and Evaluation",
+    "pub.anlp2.title": "Exploring the Applicability of Machine Translation to Literary Translation",
+    "pub.thesis.title": "Exploring the Potential Use of Machine Translation in Literary Translation",
+    "pub.paper.language": "English title translation · Paper in Japanese",
+    "pub.thesis.language": "English title translation · Thesis in Japanese",
+    "edu.mDescription": "English title translation · Thesis in Japanese. Focused on mystery novels (推理小説を中心に); part of the research was presented at ANLP 2026."
   }
 };
 
-const htmlKeys = new Set([
-  "about.li2",
-  "about.v2"
-]);
-
-const supportedLangs = new Set(["ja", "en"]);
-// デフォルトをENに変更（ユーザー設定があればそれを優先）
-let lang = safeStorageGet("lang") || "en";
-if (!supportedLangs.has(lang)) lang = "en";
-setLanguage(lang);
-
-const langBtn = $("#langBtn");
-if (langBtn) {
-  langBtn.addEventListener("click", () => {
-    const next = lang === "ja" ? "en" : "ja";
-    setLanguage(next);
-    safeStorageSet("lang", next);
-  });
-}
-
-function setLanguage(l){
-  const nextLang = supportedLangs.has(l) ? l : "ja";
-  lang = nextLang;
-  document.documentElement.lang = nextLang;
-  $$("[data-i18n]").forEach(el => {
-    const key = el.dataset.i18n;
-    const txt = dict[nextLang]?.[key];
-    if (!txt) return;
-    if (htmlKeys.has(key)) {
-      el.innerHTML = txt;
-      return;
-    }
-    const linkified = linkifyURLs(txt);
-    if (linkified) el.innerHTML = linkified;
-    else el.textContent = txt;
-  });
-  if (projectsUIReady) renderProjects(getActiveFilter());
-}
-
-function linkifyURLs(text){
-  if (!/https?:\/\/[^\s)）]+/.test(text)) return null;
-  const escaped = escapeHTML(text);
-  return escaped.replace(/https?:\/\/[^\s)）]+/g, (url) => {
-    return `<a href="${url}" target="_blank" rel="noopener noreferrer">${url}</a>`;
-  });
-}
-
-// --- Projects data (2 research + 1 internship) ---
 const projects = [
   {
-    id: "r1",
+    id: "r2",
+    label: { ja: "用語研究", en: "Terminology" },
     title: {
-      ja: "研究：MT/LLMによる文芸翻訳（EN/JA）の評価フレームワーク作成",
-      en: "Research: Designing an MT/LLM Evaluation Framework for EN/JA Literary Translation"
+      ja: "専門用語の生成・拡張の分析（GNN）",
+      en: "Terminology Generation & Expansion (GNN)"
     },
     summary: {
-      ja: "MQM/SCATEを参考にしながら、日本語・文芸翻訳特有の観点を含む評価スキームを設計し、MT/LLMの出力を分析。",
-      en: "Designed an MQM/SCATE-inspired taxonomy and JP/literary-focused evaluation metrics to analyze multiple MT systems and LLM outputs."
+      ja: "専門用語の生成・拡張をグラフとしてモデル化する共同研究。GNNの概念設計、Python実装・実験、論文執筆を担当。基礎研究のANLP 2026発表で優秀賞を受賞。",
+      en: "Collaborative research modeling terminology generation and expansion as graphs. Contributed GNN concept design, Python implementation, experiments and paper writing. The foundational work received 優秀賞 at ANLP 2026."
+    },
+    tags: ["research", "terminology", "gnn"],
+    details: {
+      ja: {
+        overview: "専門用語の生成・拡張を、関係構造（グラフ）としてモデル化し分析。用語が拡張するパターンの把握に繋げる研究。",
+        role: "GNN側の概念設計 / スクリプト実装 / 実験 / 論文執筆",
+        deliverables: [
+          "Conceptual paper（共著・second author）: Terminologists as Social Custodians of Knowledge: Clarifying the Expertise of Terminologists and the Status of Terminologies",
+          "ANLP 2026（筆頭著者・ポスターおよび口頭発表済み・優秀賞受賞・日本語論文）: 専門語彙グラフに基づく自動用語生成枠組・手法・評価。EMNLP 2026 Findings採択論文の基礎研究。",
+          "EMNLP 2026 Findings（筆頭著者・採択・発表予定）: Graph Neural Networks for Automatic Term Generation: Defining and Exploring Terminological Graph",
+        ],
+        impact: [
+          "グラフ構造により、専門語彙生成の特徴を捉えられる見込みを示した（詳細は公開前の非公開範囲あり）"
+        ],
+        stack: "Python / GNN (PyG/NetworkX) / sklearn"
+      },
+      en: {
+        overview: "Modeled terminology generation and expansion as structured relationships using graph representations, informing how terminologies can be maintained as terms shift.",
+        role: "Concept design (GNN) / Implementation / Experiments / Paper writing",
+        deliverables: [
+          "Conceptual paper (2nd author): Terminologists as Social Custodians of Knowledge: Clarifying the Expertise of Terminologists and the Status of Terminologies",
+          "ANLP 2026 (first author; poster and oral presentations; award received: 優秀賞; paper in Japanese): Automatic Term Generation Based on Terminological Graphs: Framework, Methods and Evaluation (English translation; 原題：専門語彙グラフに基づく自動用語生成枠組・手法・評価). Foundational work for the EMNLP 2026 Findings paper.",
+          "EMNLP 2026 Findings (first author; accepted, presentation forthcoming): Graph Neural Networks for Automatic Term Generation: Defining and Exploring Terminological Graph",
+        ],
+        impact: [
+          "Early results suggest graph structures capture meaningful terminology patterns (some details under non-disclosure before publication)"
+        ],
+        stack: "Python / GNN (PyG/NetworkX) / sklearn"
+      }
+    }
+  },
+
+  {
+    id: "r1",
+    label: { ja: "翻訳評価", en: "MT evaluation" },
+    related: { href: "#case", text: "case.h" },
+    title: {
+      ja: "文芸翻訳（英日）のための MT／LLM 評価設計",
+      en: "An MT/LLM Evaluation Framework for EN/JA Literary Translation"
+    },
+    summary: {
+      ja: "日本語・文芸翻訳の特性を含む40項目の評価観点を設計。MT／LLMの実行、アノテーション、定量・定性分析、論文執筆を担当。",
+      en: "Designed 40 evaluation items for Japanese literary translation. Conducted MT/LLM runs, annotation, quantitative and qualitative analysis, and paper writing."
     },
     tags: ["research", "writing", "mt", "evaluation"],
     details: {
@@ -270,6 +252,8 @@ const projects = [
         overview: "文芸翻訳領域において、標準的な評価手法では捉えにくいエラーや良さを、特に日本語・文芸作品特有の観点まで分解して分析できる評価枠組みを設計。",
         role: "評価設計 / MT・LLM実行 / 解析（アノテーション） / 論文執筆",
         deliverables: [
+          "ANLP 2026（筆頭著者・発表済み・日本語論文）: 文芸翻訳における機械翻訳の利用可能性の検討。修士論文の一部に基づく研究発表。",
+          "修士論文（提出済み・日本語）: 文芸翻訳に機械翻訳を利用する可能性の検討。推理小説を中心に検討。研究の一部をANLP 2026で発表。",
           "GitHub（自動評価スクリプト例）: https://github.com/tsukimidaifuku/COMET-trial",
         ],
         impact: [
@@ -282,6 +266,8 @@ const projects = [
         overview: "Designed a framework to capture quality differences that standard automatic metrics often miss, decomposing accuracy/fluency errors including Japanese-specific phenomena in literary translation.",
         role: "Evaluation design / MT/LLM runs / Analysis (annotation) / Paper writing",
         deliverables: [
+          "ANLP 2026 (first author; presented; paper in Japanese): Exploring the Applicability of Machine Translation to Literary Translation (English translation; 原題：文芸翻訳における機械翻訳の利用可能性の検討). Based on part of the master’s thesis.",
+          "Master’s thesis (submitted; written in Japanese): Exploring the Potential Use of Machine Translation in Literary Translation (English translation; 原題：文芸翻訳に機械翻訳を利用する可能性の検討). Focused on mystery novels (推理小説を中心に); part of the research was presented at ANLP 2026.",
           "GitHub (evaluation & repro scripts): https://github.com/tsukimidaifuku/COMET-trial",
         ],
         impact: [
@@ -294,49 +280,12 @@ const projects = [
   },
 
   {
-    id: "r2",
-    title: {
-      ja: "研究：専門用語の生成・拡張の分析（GNN）",
-      en: "Research: Terminology Generation & Expansion (GNN)"
-    },
-    summary: {
-      ja: "グラフ構造で用語の生成・拡張を捉え、用語管理・更新の理解に繋げる。",
-      en: "Used graph structures to analyze how terminology is generated and expanded."
-    },
-    tags: ["research", "terminology", "gnn"],
-    details: {
-      ja: {
-        overview: "専門用語の生成・拡張を、関係構造（グラフ）としてモデル化し分析。用語が拡張するパターンの把握に繋げる研究。",
-        role: "GNN側の概念設計 / スクリプト実装 / 実験 / 論文執筆",
-        deliverables: [
-          "Conceptual paper（共著・second author、発表済/投稿済）: Terminologists as Social Custodians of Knowledge: Clarifying the Expertise of Terminologists and the Status of Terminologies",
-          "Technical paper（共著・first author、未発表/投稿済（ACL2026））: Graph Neural Networks for Automatic Term Generation: Defining and Exploring Terminological Graph",
-        ],
-        impact: [
-          "グラフ構造により、専門語彙生成の特徴を捉えられる見込みを示した（詳細は公開前の非公開範囲あり）"
-        ],
-        stack: "Python / GNN (PyG/NetworkX) / sklearn"
-      },
-      en: {
-        overview: "Modeled terminology generation and expansion as structured relationships using graph representations, informing how terminologies can be maintained as terms shift.",
-        role: "Concept design (GNN) / Implementation / Experiments / Paper writing",
-        deliverables: [
-          "Conceptual paper (2nd author; presented/submitted): Terminologists as Social Custodians of Knowledge: Clarifying the Expertise of Terminologists and the Status of Terminologies",
-          "Technical paper (1st author; not yet published/submitted (ACL2026)): Graph Neural Networks for Automatic Term Generation: Defining and Exploring Terminological Graph",
-        ],
-        impact: [
-          "Early results suggest graph structures capture meaningful terminology patterns (some details under non-disclosure before publication)"
-        ],
-        stack: "Python / GNN (PyG/NetworkX) / sklearn"
-      }
-    }
-  },
-
-  {
     id: "i1",
+    label: { ja: "2024.09–11", en: "2024.09–11" },
+    dateLabel: { ja: "2024年9月〜11月", en: "September–November 2024" },
     title: {
-      ja: "Terminology fellowship：WIPO Pearl 用語翻訳（EN/JA）",
-      en: "Terminology fellowship: Evidence-based Terminology Translation for WIPO Pearl (EN/JA)"
+      ja: "WIPO Pearl の専門用語翻訳（英日）",
+      en: "WIPO Pearl · Evidence-Based Terminology Translation (EN/JA)"
     },
     summary: {
       ja: "ソースつきで専門用語翻訳を作成（約800語）。英語環境（海外）・国際機関での勤務。",
@@ -373,6 +322,7 @@ const projects = [
 
   {
     id: "t1",
+    label: { ja: "翻訳指導", en: "Translation" },
     title: {
       ja: "大学図書館職員向け翻訳勉強会の講師",
       en: "Translation Study Group Instructor for University Library Staff"
@@ -407,135 +357,324 @@ const projects = [
       }
     }
   }
-];const tagLabels = {
-  ja: { research: "Research", intern: "Internship", writing: "Writing", mt: "MT/LLM", terminology: "Terminology", translation: "Translation", teaching: "Teaching", evaluation: "Evaluation", gnn: "GNN" },
-  en: { research: "Research", intern: "Internship", writing: "Writing", mt: "MT/LLM", terminology: "Terminology", translation: "Translation", teaching: "Teaching", evaluation: "Evaluation", gnn: "GNN" }
-};
+];
 
-const modalLabels = {
-  ja: { overview: "Overview", role: "Role", deliverables: "Deliverables", impact: "Impact / Results", stack: "Tech stack" },
-  en: { overview: "Overview", role: "Role", deliverables: "Deliverables", impact: "Impact / Results", stack: "Tech stack" }
-};
-
-function tagLabel(tag){
-  return (tagLabels[lang] && tagLabels[lang][tag]) ? tagLabels[lang][tag] : tag;
-}
-
-
-
-const grid = $("#projectGrid");
-const modal = $("#modal");
-const modalTitle = $("#modalTitle");
-const modalBody = $("#modalBody");
-const closeModal = $("#closeModal");
-let lastFocusedBeforeModal = null;
-
-closeModal.addEventListener("click", () => modal.close());
-modal.addEventListener("close", () => {
-  if (lastFocusedBeforeModal && typeof lastFocusedBeforeModal.focus === "function") {
-    lastFocusedBeforeModal.focus();
+const places = {
+  jp: {
+    ja: { description: "東京大学で物理工学を学び、大学院では機械翻訳評価と専門用語生成を研究。", link: "edu.h", href: "#education" },
+    en: { description: "Studied applied physics at the University of Tokyo and researched machine translation evaluation and terminology generation in graduate school.", link: "edu.h", href: "#education" }
+  },
+  us: {
+    ja: { description: "小学校・中学校の時期にアメリカに住み、英語での学校生活を経験。", link: "about.h3b", href: "#about" },
+    en: { description: "Lived in the United States during elementary and middle school and attended school in an English-speaking environment.", link: "about.h3b", href: "#about" }
+  },
+  se: {
+    ja: { description: "2024年1月から6月まで、ストックホルムのスウェーデン王立工科大学（KTH）に留学。", link: "edu.h", href: "#education" },
+    en: { description: "Studied abroad at KTH Royal Institute of Technology in Stockholm from January to June 2024.", link: "edu.h", href: "#education" }
+  },
+  ch: {
+    ja: { description: "2024年9月から11月まで、ジュネーブの WIPO で日本語の専門用語整備を担当。", link: "nav.experience", href: "#experience" },
+    en: { description: "Worked in Geneva as a Japanese Terminology Fellow at WIPO from September to November 2024.", link: "nav.experience", href: "#experience" }
   }
-  lastFocusedBeforeModal = null;
-});
-modal.addEventListener("click", (e) => {
-  const r = modal.getBoundingClientRect();
-  const inside = (r.top <= e.clientY && e.clientY <= r.bottom && r.left <= e.clientX && e.clientX <= r.right);
-  if (!inside) modal.close();
-});
+};
 
-function getActiveFilter(){
-  const active = $(".filters .chip.active");
-  return active ? active.dataset.filter : "all";
+const detailLabels = {
+  ja: { overview: "概要", role: "担当", deliverables: "成果物", impact: "成果・結果", stack: "使用ツール・手法" },
+  en: { overview: "Overview", role: "Role", deliverables: "Deliverables", impact: "Results", stack: "Tools & methods" }
+};
+
+const root = document.documentElement;
+const topbar = document.querySelector(".topbar");
+const menuBtn = document.querySelector("#menuBtn");
+const langBtn = document.querySelector("#langBtn");
+const themeBtn = document.querySelector("#themeBtn");
+const modal = document.querySelector("#modal");
+const modalTitle = document.querySelector("#modalTitle");
+const modalBody = document.querySelector("#modalBody");
+const modalCategory = document.querySelector("#modalCategory");
+const closeModal = document.querySelector("#closeModal");
+const sheetBody = document.querySelector("#sheetBody");
+const projectCount = document.querySelector("#projectCount");
+const filterButtons = [...document.querySelectorAll("[data-filter]")];
+const sectionNotes = [...document.querySelectorAll(".section-note")];
+const profileLink = document.querySelector("#profileLink");
+const placeLinks = [...document.querySelectorAll(".places-list [data-place]")];
+const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+let lang = readPreference("lang") === "ja" ? "ja" : "en";
+let filter = "all";
+let returnFocus;
+let cardMotion;
+let returningCard = false;
+
+function readPreference(key) {
+  try {
+    return localStorage.getItem(key);
+  } catch {
+    return null;
+  }
 }
 
-function renderProjects(filter){
-  const list = filter === "all" ? projects : projects.filter(p => p.tags.includes(filter));
-  grid.innerHTML = "";
-
-  list.forEach(p => {
-    const card = document.createElement("button");
-    card.className = "card";
-    card.type = "button";
-    card.setAttribute("aria-label", p.title[lang]);
-
-    card.innerHTML = `
-      <h3>${escapeHTML(p.title[lang])}</h3>
-      <p>${escapeHTML(p.summary[lang])}</p>
-      <div class="tagrow">${p.tags.map(t => `<span class="tag">${escapeHTML(tagLabel(t))}</span>`).join("")}</div>
-    `;
-
-    card.addEventListener("click", () => openProject(p));
-    grid.appendChild(card);
-  });
+function savePreference(key, value) {
+  try {
+    localStorage.setItem(key, value);
+  } catch {
+    // Preferences still apply for the current visit when storage is disabled.
+  }
 }
 
-function openProject(p){
-  const d = p.details[lang];
-  modalTitle.textContent = p.title[lang];
+function setTheme(theme) {
+  root.dataset.theme = theme;
+  themeBtn.setAttribute("aria-pressed", String(theme === "dark"));
+  document.querySelector('meta[name="theme-color"]').content = theme === "dark" ? "#171e23" : "#e6eaed";
+}
 
-  modalBody.innerHTML = `
-    <p><strong>${modalLabels[lang].overview}:</strong> ${renderProjectText(d.overview)}</p>
-    <p><strong>${modalLabels[lang].role}:</strong> ${renderProjectText(d.role)}</p>
+function setMobileMenu(open) {
+  topbar.classList.toggle("menu-open", open);
+  menuBtn.setAttribute("aria-expanded", String(open));
+}
 
-    <h4>${modalLabels[lang].deliverables}</h4>
-    <ul>${d.deliverables.map(x => `<li>${renderProjectText(x)}</li>`).join("")}</ul>
+function setLanguage(language) {
+  lang = language;
+  root.lang = language;
+  langBtn.textContent = lang === "en" ? "EN / JP" : "JP / EN";
+  langBtn.setAttribute("aria-label", lang === "en" ? "日本語に切り替え" : "Switch to English");
 
-    <h4>${modalLabels[lang].impact}</h4>
-    <ul>${d.impact.map(x => `<li>${renderProjectText(x)}</li>`).join("")}</ul>
+  for (const element of document.querySelectorAll("[data-i18n]")) {
+    element.textContent = dict[lang][element.dataset.i18n];
+  }
+  for (const element of document.querySelectorAll("[data-i18n-label]")) {
+    element.setAttribute("aria-label", dict[lang][element.dataset.i18nLabel]);
+  }
+  for (const note of sectionNotes) updateNoteLabel(note);
+  renderProjects();
+}
 
-    <p><strong>${modalLabels[lang].stack}:</strong> ${renderProjectText(d.stack)}</p>
-  `;
-  lastFocusedBeforeModal = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+function escapeHTML(value) {
+  const escaped = { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" };
+  return value.replace(/[&<>"']/g, character => escaped[character]);
+}
+
+function renderProjectText(value) {
+  const linkPattern = /<a\b[^>]*href="(https?:\/\/[^"]+)"[^>]*>([^<]+)<\/a>|(https?:\/\/[^\s)）<]+)/gi;
+  let result = "";
+  let offset = 0;
+  for (const link of value.matchAll(linkPattern)) {
+    const url = escapeHTML(link[1] || link[3]);
+    const text = escapeHTML(link[2] || link[3]);
+    result += escapeHTML(value.slice(offset, link.index));
+    result += `<a href="${url}" target="_blank" rel="noopener noreferrer">${text}</a>`;
+    offset = link.index + link[0].length;
+  }
+  return result + escapeHTML(value.slice(offset));
+}
+
+function renderDetailFields(project) {
+  const detail = project.details[lang];
+  const labels = detailLabels[lang];
+  const fields = Object.entries(labels).map(([key, label]) => {
+    const value = detail[key];
+    const content = Array.isArray(value)
+      ? `<ul class="detail-list">${value.map(item => `<li>${renderProjectText(item)}</li>`).join("")}</ul>`
+      : renderProjectText(value);
+    return `<div><dt>${label}</dt><dd>${content}</dd></div>`;
+  }).join("");
+  const related = project.related
+    ? `<a class="record-link" href="${project.related.href}">${dict[lang][project.related.text]}</a>`
+    : "";
+  return `<dl class="detail-fields">${fields}</dl>${related}`;
+}
+
+function renderProject(project) {
+  const title = escapeHTML(project.title[lang]);
+  const summary = escapeHTML(project.summary[lang]);
+  const label = escapeHTML(project.label[lang]);
+  const stamp = project.dateLabel
+    ? `<span class="stamp" aria-label="${escapeHTML(project.dateLabel[lang])}">${label}</span>`
+    : label;
+
+  return `<article class="project-record" id="${project.id}">
+    <h3>
+      <button class="entry-trigger" type="button" data-project="${project.id}" aria-haspopup="dialog" aria-label="${title}">
+        <span class="entry-label">${stamp}</span>
+        <span class="entry-body"><span class="entry-title">${title}</span><span class="record-summary">${summary}</span></span>
+      </button>
+    </h3>
+    <div class="record-detail record more-content"><div class="entry-body">${renderDetailFields(project)}</div></div>
+  </article>`;
+}
+
+function renderProjects(announce = false) {
+  const visible = filter === "all" ? projects : projects.filter(project => project.tags.includes(filter));
+  const research = visible.filter(project => project.tags.includes("research"));
+  const experience = visible.filter(project => !project.tags.includes("research"));
+  document.querySelector("#researchGrid").innerHTML = research.map(renderProject).join("");
+  document.querySelector("#experienceGrid").innerHTML = experience.map(renderProject).join("");
+  document.querySelector("#research").hidden = research.length === 0;
+  document.querySelector("#experience").hidden = experience.length === 0;
+
+  for (const button of filterButtons) {
+    button.setAttribute("aria-pressed", String(button.dataset.filter === filter));
+  }
+  if (announce || projectCount.textContent) {
+    projectCount.textContent = lang === "ja" ? `${visible.length}件のプロジェクト` : `${visible.length} projects`;
+  }
+}
+
+function openSheet(category, title, body, trigger) {
+  returnFocus = trigger;
+  modalCategory.textContent = category;
+  modalTitle.textContent = title;
+  modalBody.innerHTML = body;
+
+  const fromCard = trigger.matches(".entry-trigger");
+  modal.classList.toggle("sheet-from-card", fromCard);
   modal.showModal();
-  closeModal.focus();
+  sheetBody.scrollTop = 0;
+  closeModal.focus({ preventScroll: true });
+
+  if (fromCard && !reducedMotion.matches && typeof modal.animate === "function") {
+    trigger.classList.add("entry-card-out");
+    cardMotion = modal.animate([
+      { transform: "translateX(calc(100% + 56px))" },
+      { transform: "translateX(0)" }
+    ], { duration: 380, easing: "cubic-bezier(.22, .75, .25, 1)", fill: "both" });
+  }
 }
 
-// --- Filters ---
-$$(".filters .chip").forEach(btn => {
-  btn.addEventListener("click", () => {
-    $$(".filters .chip").forEach(b => { b.classList.remove("active"); b.setAttribute("aria-pressed","false"); });
-    btn.classList.add("active");
-    btn.setAttribute("aria-pressed","true");
-    renderProjects(btn.dataset.filter);
-  });
-});
-
-function escapeHTML(str){
-  return String(str).replace(/[&<>"']/g, s => ({
-    "&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"
-  }[s]));
-}
-
-function renderTextWithLinks(text){
-  const escaped = escapeHTML(text);
-  return escaped.replace(/https?:\/\/[^\s)）]+/g, (url) => {
-    return `<a href="${url}" target="_blank" rel="noopener noreferrer">${url}</a>`;
-  });
-}
-
-function renderProjectText(text){
-  if (/<a\b/i.test(text)) return sanitizeAnchors(text);
-  return renderTextWithLinks(text);
-}
-
-function sanitizeAnchors(text){
-  const anchorRe = /<a\b[^>]*href="(https?:\/\/[^"]+)"[^>]*>([\s\S]*?)<\/a>/gi;
-  let out = "";
-  let lastIndex = 0;
-  let match = null;
-
-  while ((match = anchorRe.exec(text)) !== null) {
-    out += escapeHTML(text.slice(lastIndex, match.index));
-    const href = match[1];
-    const labelText = String(match[2]).replace(/<[^>]*>/g, "").trim() || href;
-    out += `<a href="${href}" target="_blank" rel="noopener noreferrer">${escapeHTML(labelText)}</a>`;
-    lastIndex = match.index + match[0].length;
+function closeSheet() {
+  if (returningCard) return;
+  if (!cardMotion || reducedMotion.matches || cardMotion.currentTime <= 0) {
+    modal.close();
+    return;
   }
 
-  out += escapeHTML(text.slice(lastIndex));
-  return out;
+  returningCard = true;
+  modal.classList.add("sheet-returning");
+  cardMotion.onfinish = () => modal.close();
+  cardMotion.updatePlaybackRate(-1.45);
+  cardMotion.play();
 }
 
-// initial render
-projectsUIReady = true;
-renderProjects(getActiveFilter());
+function setExpanded(note, expanded) {
+  note.setAttribute("aria-expanded", String(expanded));
+  note.closest(".loan-card").classList.toggle("is-expanded", expanded);
+  note.querySelector("[lang]").textContent = expanded ? "back to list" : "read more";
+  updateNoteLabel(note);
+}
+
+function updateNoteLabel(note) {
+  const title = note.closest(".card-heading").querySelector("h2").textContent;
+  const action = note.getAttribute("aria-expanded") === "true" ? "ui.collapse" : "ui.expand";
+  note.setAttribute("aria-label", `${dict[lang][action]} · ${title}`);
+}
+
+function revealSection(hash) {
+  if (["#research", "#experience"].includes(hash) && document.querySelector(hash).hidden) {
+    filter = "all";
+    renderProjects(true);
+  }
+  if (hash === "#case") {
+    setExpanded(document.querySelector("#case .section-note"), true);
+  }
+}
+
+langBtn.addEventListener("click", () => {
+  setLanguage(lang === "en" ? "ja" : "en");
+  savePreference("lang", lang);
+});
+themeBtn.addEventListener("click", () => {
+  const next = root.dataset.theme === "dark" ? "light" : "dark";
+  setTheme(next);
+  savePreference("theme", next);
+});
+menuBtn.addEventListener("click", () => setMobileMenu(!topbar.classList.contains("menu-open")));
+document.addEventListener("keydown", event => {
+  if (event.key === "Escape" && !modal.open && topbar.classList.contains("menu-open")) {
+    setMobileMenu(false);
+    menuBtn.focus();
+  }
+});
+window.matchMedia("(min-width: 881px)").addEventListener("change", event => {
+  if (event.matches) setMobileMenu(false);
+});
+
+for (const note of sectionNotes) {
+  note.addEventListener("click", () => setExpanded(note, note.getAttribute("aria-expanded") === "false"));
+}
+for (const button of filterButtons) {
+  button.addEventListener("click", () => {
+    filter = button.dataset.filter;
+    renderProjects(true);
+  });
+}
+
+document.querySelector("#projects").addEventListener("click", event => {
+  const trigger = event.target.closest("[data-project]");
+  if (!trigger) return;
+  const project = projects.find(item => item.id === trigger.dataset.project);
+  const category = project.tags.includes("research") ? "nav.research" : "nav.experience";
+  openSheet(dict[lang][category], project.title[lang], renderDetailFields(project), trigger);
+});
+
+for (const link of [profileLink, ...placeLinks]) {
+  link.setAttribute("aria-haspopup", "dialog");
+}
+profileLink.addEventListener("click", event => {
+  event.preventDefault();
+  const text = dict[lang];
+  const body = `<p>${escapeHTML(text["hero.lead"])}</p><p>${escapeHTML(text["about.p1"])}</p>
+    <a class="record-link" href="#about">${text["about.h3b"]}</a>`;
+  openSheet(text["ui.profile"], document.querySelector("#profile-name").textContent, body, profileLink);
+});
+
+document.querySelector("#places").addEventListener("click", event => {
+  const trigger = event.target.closest("[data-place]");
+  if (!trigger) return;
+  event.preventDefault();
+  const place = places[trigger.dataset.place][lang];
+  const focusTarget = document.querySelector(`.places-list [data-place="${trigger.dataset.place}"]`);
+  const body = `<p>${escapeHTML(place.description)}</p><a class="record-link" href="${place.href}">${dict[lang][place.link]}</a>`;
+  openSheet(dict[lang]["places.title"], focusTarget.textContent, body, focusTarget);
+});
+
+closeModal.addEventListener("click", closeSheet);
+modal.addEventListener("cancel", event => {
+  event.preventDefault();
+  closeSheet();
+});
+modal.addEventListener("close", () => {
+  cardMotion?.cancel();
+  cardMotion = undefined;
+  returningCard = false;
+  modal.classList.remove("sheet-from-card", "sheet-returning");
+  returnFocus?.classList.remove("entry-card-out");
+  returnFocus?.focus({ preventScroll: true });
+  returnFocus = undefined;
+});
+modal.addEventListener("click", event => {
+  if (event.target === modal) closeSheet();
+});
+
+document.addEventListener("click", event => {
+  if (event.defaultPrevented) return;
+  const link = event.target.closest('a[href^="#"]');
+  if (!link) return;
+  revealSection(link.hash);
+  if (link.closest(".nav")) setMobileMenu(false);
+  if (link.closest(".sheet")) {
+    modal.close();
+    const section = document.getElementById(link.hash.slice(1));
+    section.setAttribute("tabindex", "-1");
+    section.focus({ preventScroll: true });
+    returnFocus?.classList.remove("entry-card-out");
+    returnFocus = undefined;
+  }
+});
+window.addEventListener("hashchange", () => revealSection(location.hash));
+
+document.querySelector("#year").textContent = new Date().getFullYear();
+setTheme(readPreference("theme") === "dark" ? "dark" : "light");
+setLanguage(lang);
+revealSection(location.hash);
+root.classList.add("js");
